@@ -1,0 +1,21 @@
+
+List<String> welcomeText=["Быстро,вкусно,с любовью!","Тез, дәмді, сүйіспеншілікпен!","Fast, tasty, with love"];
+List<String> deliveryText=["Доставка","Жеткізу","Delivery"];
+List<String> pickupText=["Самовывоз","Алып кету","PickUp"];
+List<String> chooseDepartmentText=["Выберите филиал","Филиалды таңдаңыз","Choose a branch"];
+List<String> ourDepartmentsText=["Наши филиалы","Біздің филиалдарымыз","Our Branches"];
+List<String> nameNameInForm=["Имя","Аты","Name"];
+List<String> nameNameFailInForm=["Вы не указали имя","Сіз атау бермедіңіз", "You didn't provide a name"];
+List<String> namePhoneInForm=["Контактный телефон","Байланыс телефоны","Contact number"];
+List<String> namePhoneFailInForm=["Вы неправильно указали номер"," Сіз нөмірді қате енгіздіңіз", "Phone number is not valid"];
+List<String> nameAddressInForm=["Адрес","Мекенжай","Address"];
+List<String> nameAddressFailInForm=["Вы неправильно указали Адрес","Сіз қате мекенжайды енгіздіңіз" ,"Address is not valid"];
+List<String> nameApartmentInForm=["Квартира","Пәтер" ,"Apartment"];
+List<String> nameApartmentFailInForm=["Вы не указали Квартиру"," Сіз пәтерді көрсетпедіңіз", "You didn't specify the Apartment"];
+List<String> nameEntranceInForm=["Подъезд","Кіру" ,"Entrance"];
+List<String> nameFloorInForm=["Этаж","Еден" ,"Floor"];
+List<String> nameDoorPhoneInForm=["Домофон","Домофон","Intercom"];
+List<String> nameCommentInForm=["Комментарий","Пікір","Comment"];
+List<String> nameCashToCourierPaymentTypeInButton=["Наличными","Қолма-қол ақша" ,"Cash"];
+List<String> nameCardToCourierPaymentTypeInButton=["Картой курьеру","Курьерге картамен","Card to courier"];
+List<String> workingSchedulesText=["Режим работы","Жұмыс уақыты","Working Hours"];
