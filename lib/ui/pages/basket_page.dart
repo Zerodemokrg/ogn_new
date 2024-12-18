@@ -45,9 +45,25 @@ class _BasketPageState extends State<BasketPage>{
           SiteSliverAppBar(title: '',),
           SliverToBoxAdapter(
             child:   Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.center,
               children: [
+                Container(
+                  alignment: Alignment.center,
+                  margin:EdgeInsets.only(top: 20),
+                  child: GradientText(
+                    "Оформление заказов временно работает только через кол центр ",
+                    gradient: const LinearGradient(
+                      colors: <Color>[
+                        Color.fromRGBO(220, 53, 42, 1),  // rgba(220, 53, 42, 1)
+                        Color.fromRGBO(255, 10, 10, 1.0), // rgba(255, 214, 10, 1)
+                      ],
+                      begin: Alignment.topLeft,
+                      end: Alignment.bottomRight,
+                    ),
+                    sizeFont: 32,
+                  ),
+                ),
                 Container(
                   alignment: Alignment.center,
                   margin:EdgeInsets.only(top: 20),
@@ -70,9 +86,12 @@ class _BasketPageState extends State<BasketPage>{
                 Container(
                   alignment: Alignment.center,
                   child: Wrap(
+                    crossAxisAlignment: WrapCrossAlignment.start,
+                    alignment: WrapAlignment.center,
                     children: [
                       Container(
-                        width: 500,
+                        alignment: Alignment.center,
+                        width: 450,
                         // color: Colors.black,
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.center,
@@ -94,13 +113,17 @@ class _BasketPageState extends State<BasketPage>{
                         color: Color.fromRGBO(51, 51, 51, 1), // Цвет линии
                       ),
                       Container(
-                        width: 500,
+                        margin: EdgeInsets.only(top: _width>770?0:15),
+                        alignment: Alignment.center,
+                        width: 400,
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.center,
-                          mainAxisAlignment: MainAxisAlignment.start,
+                          mainAxisAlignment: MainAxisAlignment.center,
                           children: [
+
                             if(orderController.order.value.orderType=="delivery")
                               Container(
+                                alignment: Alignment.center,
                                 child: Obx((){
                                   return Text(localSettingsController.selectLanguage.value=="RU"?orderTypeDelivery.first:(localSettingsController.selectLanguage.value=="KZ"?orderTypeDelivery[1]:orderTypeDelivery[2]));
                                 }),
@@ -121,8 +144,8 @@ class _BasketPageState extends State<BasketPage>{
                                   return Text(localSettingsController.selectLanguage.value=="RU"?orderTypeInside.first:(localSettingsController.selectLanguage.value=="KZ"?orderTypeInside[1]:orderTypeInside[2]));
                                 }),
                               ),
-                            const SizedBox(
-                              height:5 ,
+                           const  SizedBox(
+                              height:5,
                             ),
                             DeliveryForm(),
                             const SizedBox(

@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import '../../controllers/intl.dart';
 import '../../main.dart';
 import '../themes/defaultTheme.dart';
@@ -58,7 +57,7 @@ class _ChooseOrderTypePageState extends State<ChooseOrderTypePage>{
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          SvgPicture.asset("assets/images/deliveryLogo.svg",),
+                        //  SvgPicture.asset("assets/images/deliveryLogo.svg",),
                           const SizedBox(
                             width: 8,
                           ),
@@ -89,7 +88,7 @@ class _ChooseOrderTypePageState extends State<ChooseOrderTypePage>{
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          SvgPicture.asset("assets/images/pickupLogo.svg",),
+                        //  SvgPicture.asset("assets/images/pickupLogo.svg",),
                           const SizedBox(
                             width: 8,
                           ),

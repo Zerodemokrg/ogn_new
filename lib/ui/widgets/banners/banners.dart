@@ -12,7 +12,8 @@ class BannersWidget extends StatelessWidget implements PreferredSizeWidget {
 
   @override
   Widget build(BuildContext context) {
-    return RepaintBoundary(
+    double _width= MediaQuery.of(context).size.width ;
+    return _width>770?RepaintBoundary(
       child: Container(
         constraints: BoxConstraints(maxWidth: 1280, maxHeight: 200),
         child: CarouselSlider.builder(
@@ -38,7 +39,7 @@ class BannersWidget extends StatelessWidget implements PreferredSizeWidget {
                     alignment: Alignment.bottomCenter,
                     child: Text(
                       bannersController.banners[index].name,
-                      style: themData.textTheme.headlineLarge,
+                      style: _width>700?themData.textTheme.headlineLarge:themData.textTheme.headlineSmall,
                       textAlign: TextAlign.center,
                     ),
                   ),
@@ -51,6 +52,49 @@ class BannersWidget extends StatelessWidget implements PreferredSizeWidget {
             autoPlay: true,
             autoPlayInterval: Duration(seconds: 5),
             viewportFraction: 0.3,
+
+          ),
+        ),
+      ),
+    ):RepaintBoundary(
+      child: Container(
+        constraints: BoxConstraints(maxWidth: 1280, maxHeight: 120),
+        child: CarouselSlider.builder(
+          itemCount: bannersController.banners.length,
+          itemBuilder: (context, index, realIndex) {
+            return Container(
+              margin: EdgeInsets.all(10),
+              width: 200,
+              height: 120,
+              child: GestureDetector(
+                onTap: () {
+                  showBannersResponsiveDialog(context, index);
+                  // Добавьте логику для обработки нажатий
+                },
+                child: AnimatedGradientBorderContainer(
+                  borderRadius: 12,
+                  borderWidth: 8,
+                  backgroundImage: CachedNetworkImageProvider(
+                    bannersController.banners[index].imageLinkPreview!,
+                  ),
+                  child: Container(
+                    // margin: EdgeInsets.all(5),
+                    // alignment: Alignment.bottomCenter,
+                    // child: Text(
+                    //   bannersController.banners[index].name,
+                    //   style: _width>700?themData.textTheme.headlineLarge:themData.textTheme.headlineSmall,
+                    //   textAlign: TextAlign.center,
+                    // ),
+                  ),
+                ),
+              ),
+            );
+          },
+          options: CarouselOptions(
+            height: 120,
+            autoPlay: true,
+            autoPlayInterval: Duration(seconds: 5),
+            viewportFraction: 0.5,
           ),
         ),
       ),

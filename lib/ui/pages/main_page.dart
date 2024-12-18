@@ -22,16 +22,13 @@ class MainPage extends StatelessWidget {
                 height: 32,
               ),
               Container(
-                height: 200,
                 child: BannersWidget(),
               ), // Ваш виджет с баннерами
               const SizedBox(
-                height: 32,
+                height: 15,
               ),
               CategoriesWidget(),
-              const SizedBox(
-                height: 32,
-              ),
+
               ProductTable(),
 
             ],

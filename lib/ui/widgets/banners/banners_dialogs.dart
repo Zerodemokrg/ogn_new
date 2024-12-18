@@ -1,5 +1,6 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
+import 'package:ogn/ui/themes/defaultTheme.dart';
 
 import '../../../main.dart';
 import 'banner_container.dart';
@@ -14,10 +15,8 @@ class _BannersDialogWidgetState extends State<BannersDialogWidget> {
   @override
   Widget build(BuildContext context) {
     double _width= MediaQuery.of(context).size.width ;
-    print(_width);
     return _width>770?LayoutBuilder(
       builder: (context, constraints) {
-        print(bannersController.banners.length);
         // Определяем максимальные размеры
         double maxWidth = 1280.0;
         // Определяем фактические размеры с учетом максимальных ограничений
@@ -67,7 +66,7 @@ class _BannersDialogWidgetState extends State<BannersDialogWidget> {
                 enlargeCenterPage:true,
                 height: height*0.9,
                 autoPlay: true,
-                autoPlayInterval: Duration(seconds: 8),
+                autoPlayInterval: Duration(seconds: 4),
                 viewportFraction: 0.6,
               ),
             ),
@@ -76,7 +75,6 @@ class _BannersDialogWidgetState extends State<BannersDialogWidget> {
       },
     ):LayoutBuilder(
       builder: (context, constraints) {
-        print(bannersController.banners.length);
         // Определяем максимальные размеры
         // Определяем фактические размеры с учетом максимальных ограничений
         double width = constraints.maxWidth;
@@ -96,13 +94,29 @@ class _BannersDialogWidgetState extends State<BannersDialogWidget> {
                   itemCount: bannersController.banners.length,
                   itemBuilder: (context, index, realIndex) {
                     return Container(
+
                       child: AnimatedGradientBorderContainer(
                         borderRadius: 0, borderWidth: 5,
                         backgroundImage:  NetworkImage(
                             ""
                         ), child: ClipRRect(
                         //borderRadius: BorderRadius.circular(16),
-                        child: Image.network( bannersController.banners[index].imageLink!,fit: BoxFit.contain,),
+                        child: Container(
+                          color:Colors.black,
+                          child: Stack(
+                            children: [
+                              Container(
+                                alignment: Alignment.center,
+                                child: Image.network( bannersController.banners[index].imageLink!,fit: BoxFit.contain,),
+                              ),
+                              Container(
+                                margin: EdgeInsets.only(bottom: 10),
+                                alignment: Alignment.bottomCenter,
+                                child: Text(bannersController.banners[index].name,style: themData.textTheme.bodyLarge,),
+                              ),
+                            ],
+                          )
+                        )
                       ),
                       ),
                     );
@@ -122,11 +136,12 @@ class _BannersDialogWidgetState extends State<BannersDialogWidget> {
                     // );
                   },
                   options: CarouselOptions(
+                    scrollDirection: _width<770?Axis.vertical:Axis.horizontal,
                     initialPage: widget.indexBanner,
                     enlargeCenterPage:true,
                     height: height,
                     autoPlay: true,
-                    autoPlayInterval: Duration(seconds: 8),
+                    autoPlayInterval: Duration(seconds: 4),
                     viewportFraction: 1,
                   ),
                 ),

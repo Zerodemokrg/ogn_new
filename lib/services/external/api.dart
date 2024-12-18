@@ -76,6 +76,24 @@ class API{
       throw Exception('Failed to load MENU');
     }
   }
+  static Future<List<Recommendation>>getRecommendatios() async{
+    http.Response response = await http.get(
+        Uri.parse(MainConfig().getRecommendationsUrl), //url
+        headers: {"Accept": "application/json"});
+
+    print("response status:${response.statusCode}");
+    if (response.statusCode == 200) {
+      List<Recommendation> request=[];
+      if (json.decode(response.body) !=null){
+        request = (json.decode(response.body) as List)
+            .map((i) => Recommendation.fromJson(i)).toList();
+      }
+      return  request;
+    } else {
+      throw Exception('Failed to load Banners');
+    }
+  }
+
   static Future<List<BannerSite>>getBanners() async{
     http.Response response = await http.get(
         Uri.parse(MainConfig().getBannersUrl), //url

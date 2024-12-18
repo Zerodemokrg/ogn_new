@@ -122,7 +122,7 @@ class _DepartmentsPageState extends State<DepartmentsPage>{
                                       Row(
                                         children: [
                                           Expanded(
-                                              flex:2,
+                                              flex:1,
                                               child: Container(
                                                 height: 45,
                                                 margin: EdgeInsets.only(left: 25,right: 25),
@@ -132,7 +132,7 @@ class _DepartmentsPageState extends State<DepartmentsPage>{
                                                         launch(dep.mapLink??"");
                                                       }
                                                     },
-                                                    child: Text("Мы в 2 GIS",style: TextStyle(fontSize: 16),),
+                                                    child: Text("2GIS",style: TextStyle(fontSize: 16),maxLines: 1,),
                                                     style: ButtonStyle(backgroundColor:WidgetStateProperty.all<Color>(Color.fromRGBO(51, 51, 51, 1)) )
                                                 ),
                                               )
@@ -146,7 +146,7 @@ class _DepartmentsPageState extends State<DepartmentsPage>{
                                                   launch(dep.tourLink??"");
                                                 }
                                               },
-                                              child: Text("3D Тур",style: TextStyle(fontSize: 16)),
+                                              child: Text("Обзор ",style: TextStyle(fontSize: 16)),
                                               style: ButtonStyle(backgroundColor:WidgetStateProperty.all<Color>(Color.fromRGBO(51, 51, 51, 1)) ),
                                             ),
                                           )

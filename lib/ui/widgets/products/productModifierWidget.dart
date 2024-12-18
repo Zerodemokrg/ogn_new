@@ -5,14 +5,14 @@ import '../../../models/models.dart';
 
 
 class ProductModifierWidget extends StatefulWidget{
-  Modifier mod;
+  String mod;
   ProductModifierWidget({required this.mod});
   @override
   _ProductModifierWidgetState createState()=>new _ProductModifierWidgetState(mod: mod);
 }
 
 class _ProductModifierWidgetState extends State<ProductModifierWidget>{
-  Modifier mod;
+  String mod;
   _ProductModifierWidgetState({required this.mod});
   Uint8List? img;
   bool isLoaded=true;
@@ -30,9 +30,13 @@ class _ProductModifierWidgetState extends State<ProductModifierWidget>{
   }
   @override
   Widget build(BuildContext context){
-    return Container(
-      decoration: BoxDecoration(
-        image: (menuController.menu.value.products.firstWhere((element) => element.guidId==mod.guid).imageLink!="")?DecorationImage(image: NetworkImage(menuController.menu.value.products.firstWhere((element) => element.guidId==mod.guid).imageLink),fit: BoxFit.contain):DecorationImage(image: AssetImage('assets/images/greylogo.png'),fit: BoxFit.contain),
+    return ClipRRect(
+      borderRadius: BorderRadius.circular(16),
+      child: Container(
+        decoration: BoxDecoration(
+          color: Color.fromRGBO(28, 28, 30, 1),
+          image: (menuController.menu.value.products.firstWhere((element) => element.guidId==mod).imageLinkFromExternalSystem!="")?DecorationImage(image: NetworkImage(menuController.menu.value.products.firstWhere((element) => element.guidId==mod).imageLinkFromExternalSystem),fit: BoxFit.fill):DecorationImage(image: AssetImage('assets/images/logo_for_dark.png'),fit: BoxFit.contain),
+        ),
       ),
     );
   }

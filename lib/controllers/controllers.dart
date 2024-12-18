@@ -7,5 +7,6 @@ export 'order.dart';
 export 'organizationController.dart';
 export 'stickers.dart';
 export 'departments.dart';
+export 'recommendations.dart';
 
 

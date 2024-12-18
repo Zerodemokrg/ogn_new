@@ -33,7 +33,7 @@ class _SiteSliverAppBarState extends State<SiteSliverAppBar> {
       flexibleSpace: FlexibleSpaceBar(
         background: Center(
           child: Container(
-            margin: const EdgeInsets.only(left: 60, right: 60,top: 8),
+            margin:  _width>770? const EdgeInsets.only(left: 60, right: 60,top: 8):const EdgeInsets.only(left: 5, right: 5,top: 8),
             constraints: const BoxConstraints(maxWidth: 1280),
             child: Row(
               children: [
@@ -85,6 +85,7 @@ class _SiteSliverAppBarState extends State<SiteSliverAppBar> {
                                 ],
                               )
                           ),
+                          const SizedBox(width: 10),
                         ],
                       ),
                     ),

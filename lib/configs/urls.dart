@@ -1,5 +1,6 @@
-
-String mainUrl='http://ogn.kz:5555/api';
+String mainUrl='/newback/api';
+//String mainUrl='https://ogn.kz/newback/api';
+//String mainUrl='http://ogn.kz:50055/api';
 class MainConfig{
   String getMenuUrl='$mainUrl/get/menu';
 

@@ -16,18 +16,14 @@ class OrganizationController extends GetxController {
   }
   Future<void> fetchData() async {
     try {
-      print("loading is ${isLoading}");
     List<Organization> fetchedOrganizations = await API.getOrganizations();
       organizations.value = fetchedOrganizations;
-      print("loading is ${isLoading}");
       print(jsonEncode(organizations.first));
     } catch (e) {
       print(e);
       errorMessage.value = e.toString();
     } finally {
-      print("loading is ${isLoading}");
       isLoading.value = false;
-      print("loading is ${isLoading}");
     }
   }
 }

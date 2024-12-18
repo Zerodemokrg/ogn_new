@@ -4,23 +4,29 @@ const primaryColor=Color.fromRGBO(226, 75, 55, 1);
 const greenThemeColor=Color.fromRGBO(52, 199, 89, 1);
 
 final themData=ThemeData(
-  fontFamily: 'Bitter',
+  fontFamily: 'SofiaSans',
   textTheme: const TextTheme(
     headlineLarge:TextStyle(fontFamily: 'Bitter',color: Colors.white,fontSize: 25,fontWeight: FontWeight.w700),
     headlineMedium:TextStyle(fontFamily: 'Bitter',color: Colors.white,fontSize: 28,fontWeight: FontWeight.w700),
     headlineSmall:TextStyle(fontFamily: 'Bitter',color: Colors.white,fontSize: 16,fontWeight: FontWeight.w700),
+
     displayMedium: TextStyle(fontFamily: 'Bitter',color: Colors.white,fontSize: 24,fontWeight: FontWeight.w500),
     displayLarge: TextStyle(fontFamily: 'Bitter',color: Colors.white,fontSize: 28,fontWeight: FontWeight.w500),
     displaySmall: TextStyle(fontFamily: 'Bitter',color: Colors.white,fontSize: 16,fontWeight: FontWeight.w500),
+
     bodyLarge: TextStyle(fontFamily: 'Bitter',color: Colors.white,fontSize: 16,fontWeight: FontWeight.w500),
     bodyMedium: TextStyle(fontFamily: 'Bitter',color: Colors.white,fontSize: 14,fontWeight: FontWeight.w500),
     bodySmall: TextStyle(fontFamily: 'Bitter',color: Colors.white,fontSize: 11,fontWeight: FontWeight.w500),
+
+    labelSmall: TextStyle(fontFamily: 'Bitter',color: Colors.white,fontSize: 12,fontWeight: FontWeight.w700),
     labelMedium: TextStyle(fontFamily: 'Bitter',color: Colors.white,fontSize: 18,fontWeight: FontWeight.w700),
     labelLarge: TextStyle(fontFamily: 'Bitter',color: Colors.white,fontSize: 28,fontWeight: FontWeight.w700),
 
     titleMedium: TextStyle(fontFamily: 'Bitter',color: Colors.black,fontSize: 20,fontWeight: FontWeight.w700),
     titleLarge: TextStyle(fontFamily: 'Bitter',color: Colors.black,fontSize: 28,fontWeight: FontWeight.w700),
     titleSmall: TextStyle(fontFamily: 'Bitter',color: Colors.black,fontSize: 16,fontWeight: FontWeight.w700),
+
+
 ),
   inputDecorationTheme: InputDecorationTheme(
     floatingLabelBehavior: FloatingLabelBehavior.never,

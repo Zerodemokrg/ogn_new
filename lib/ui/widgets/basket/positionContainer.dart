@@ -32,8 +32,8 @@ class _PositionTableWidgetState extends State<PositionTableWidget>{
       itemBuilder: (context, index) {
         Position pos = orderController.order.value.positions[index];
         return Container(
-          height: 282,
-          margin: EdgeInsets.only(top:0),
+          height: _width>770?282:255,
+          margin: EdgeInsets.only(top:5),
           decoration: BoxDecoration(
             border: Border.all(color: Color.fromRGBO(51, 51, 51, 1), width: 0.3),
             borderRadius: BorderRadius.circular(16),
@@ -73,7 +73,8 @@ class _PositionTableWidgetState extends State<PositionTableWidget>{
                             width: 24,
                           ),
                           Expanded(child: Container(
-                            margin: EdgeInsets.only(top: 20),
+                            alignment: Alignment.topLeft,
+                           // margin: EdgeInsets.only(top: 20),
                             child: Column(
                               mainAxisAlignment: MainAxisAlignment.start,
                               crossAxisAlignment: CrossAxisAlignment.start,
@@ -84,7 +85,7 @@ class _PositionTableWidgetState extends State<PositionTableWidget>{
                                       : (localSettingsController.selectLanguage.value == "KZ"
                                       ? menuController.menu.value.products.firstWhere((element) => element.guidId == pos.productId).nameQaz
                                       : menuController.menu.value.products.firstWhere((element) => element.guidId == pos.productId).nameEnglish),
-                                  style: _width>770?themData.textTheme.displayLarge:themData.textTheme.displayMedium,
+                                  style: _width>770?themData.textTheme.labelMedium:themData.textTheme.bodyLarge,
                                   maxLines: 1,
                                   overflow: TextOverflow.ellipsis,
                                 ),
@@ -105,8 +106,8 @@ class _PositionTableWidgetState extends State<PositionTableWidget>{
                             ),
                           ),),
                           Container(
-                            margin: EdgeInsets.only(top: 30),
-                            alignment: Alignment.centerRight,
+                           // margin: EdgeInsets.only(top: 30),
+                            alignment: Alignment.topRight,
                             child: IconButton(onPressed: (){
                               setState(() {
                                 orderController.order.value.positions.remove(pos);
@@ -125,20 +126,19 @@ class _PositionTableWidgetState extends State<PositionTableWidget>{
                       thickness: 0.3,
                     ),
                   ),
-                  const SizedBox(
-                    height: 24,
+                   SizedBox(
+                    height: _width>770?16:5,
                   ),
                   Container(
+                    alignment: Alignment.centerLeft,
                     child: Row(
                       children: [
                         Expanded(
-                            child: Container()),
-                        Expanded(
-                          flex: _width>770?1: 2,
                             child: Container(
                               child: Row(
                                 children: [
-                                   Expanded(
+                                  Expanded(child: Container()),
+                                  Expanded(
                                     child: Container(
                                       height: 30,
                                       width: 30,
@@ -170,10 +170,10 @@ class _PositionTableWidgetState extends State<PositionTableWidget>{
                                     ),
                                   ),
                                   Expanded(
-                                      child: Container(
+                                    child: Container(
                                         alignment: Alignment.center,
                                         child: Text("${pos.count}",style: themData.textTheme.displayLarge,)
-                                  ),),
+                                    ),),
                                   Expanded(
                                     child: Container(
                                       height: 30,
@@ -200,6 +200,15 @@ class _PositionTableWidgetState extends State<PositionTableWidget>{
                                       ),
                                     ),
                                   ),
+                                ],
+                              ),
+                            )),
+                        Expanded(
+                          flex: _width>770?1: 2,
+                            child: Container(
+                              child: Row(
+                                children: [
+
                                   Expanded(
                                       flex:_width>770?3:4,
                                       child: Container(
