@@ -1,5 +1,4 @@
 
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import '../../../main.dart';
 import '../../../models/models.dart';
@@ -16,6 +15,14 @@ class _PositionTableWidgetState extends State<PositionTableWidget>{
   getData()async{
 
   }
+  int getPositionSum(Position pos){
+    int result=0;
+    result=menuController.menu.value.products.firstWhere((element) => element.guidId==pos.productId).sizePrice.first.price.currentPrice.toInt()*pos.count!;
+    for (var mod in pos.positionItems!){
+      result=result+(menuController.menu.value.products.firstWhere((element) => element.guidId==mod.modifierId!).sizePrice.first.price.currentPrice.toInt()*mod.count!)*pos.count!;
+    }
+    return result;
+  }
   @override
   void initState() {
     // TODO: implement initState
@@ -25,23 +32,24 @@ class _PositionTableWidgetState extends State<PositionTableWidget>{
   @override
   Widget build(BuildContext context) {
     double _width= MediaQuery.of(context).size.width ;
-    return ListView.builder(
-      shrinkWrap: true,
-      physics: NeverScrollableScrollPhysics(),
-      itemCount: orderController.order.value.positions.length,
-      itemBuilder: (context, index) {
-        Position pos = orderController.order.value.positions[index];
-        return Container(
-          height: _width>770?282:255,
-          margin: EdgeInsets.only(top:5),
-          decoration: BoxDecoration(
-            border: Border.all(color: Color.fromRGBO(51, 51, 51, 1), width: 0.3),
-            borderRadius: BorderRadius.circular(16),
-          ),
-          child: ClipRRect(
-            borderRadius: BorderRadius.circular(16),
-            child: Column(
-              children: [
+    return Obx((){
+      return ListView.builder(
+        shrinkWrap: true,
+        physics: NeverScrollableScrollPhysics(),
+        itemCount: orderController.order.value.positions.length,
+        itemBuilder: (context, index) {
+          Position pos = orderController.order.value.positions[index];
+          return Container(
+            height: _width>770?282:255,
+            margin: EdgeInsets.only(top:5),
+            decoration: BoxDecoration(
+              border: Border.all(color: Color.fromRGBO(51, 51, 51, 1), width: 0.3),
+              borderRadius: BorderRadius.circular(16),
+            ),
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(16),
+              child: Column(
+                children: [
                   Obx((){
                     return ListTile(
                       contentPadding: EdgeInsets.all(10), // Устанавливаем padding для контента
@@ -54,16 +62,40 @@ class _PositionTableWidgetState extends State<PositionTableWidget>{
                             height: _width>770?160:120, // Задаем высоту контейнера
                             child: ClipRRect(
                               borderRadius: BorderRadius.circular(16),
-                              child: CachedNetworkImage(
-                                imageUrl: menuController.menu.value.products.firstWhere((element) => element.guidId == pos.productId).imageLink,
+                              child: Image.network(
+                                menuController.menu.value.products.firstWhere((element) => element.guidId == pos.productId).imageLink,
                                 fit: BoxFit.cover, // Масштабируем изображение без искажения
-                                placeholder: (context, url) => CircularProgressIndicator(),
-                                errorWidget: (context, url, error) {
-                                  return CachedNetworkImage(
-                                    imageUrl: menuController.menu.value.products.firstWhere((element) => element.guidId == pos.productId).imageLinkFromExternalSystem,
+                                loadingBuilder: (context, child, loadingProgress) {
+                                  if (loadingProgress == null) {
+                                    // Изображение загружено
+                                    return child;
+                                  }
+                                  // Отображаем индикатор загрузки
+                                  return Center(
+                                    child: CircularProgressIndicator(),
+                                  );
+                                },
+                                errorBuilder: (context, error, stackTrace) {
+                                  // Если основное изображение не загружается, пробуем альтернативный источник
+                                  return Image.network(
+                                    menuController.menu.value.products.firstWhere((element) => element.guidId == pos.productId).imageLinkFromExternalSystem,
                                     fit: BoxFit.cover, // Масштабируем изображение без искажения
-                                    placeholder: (context, url) => CircularProgressIndicator(),
-                                    errorWidget: (context, url, error) => Image.asset('assets/images/logo_for_dark.png'),
+                                    loadingBuilder: (context, child, loadingProgress) {
+                                      if (loadingProgress == null) {
+                                        // Изображение из альтернативного источника загружено
+                                        return child;
+                                      }
+                                      // Отображаем индикатор загрузки
+                                      return Center(
+                                        child: CircularProgressIndicator(),
+                                      );
+                                    },
+                                    errorBuilder: (context, error, stackTrace) {
+                                      // Если оба изображения не загрузились, показываем локальное изображение
+                                      return Image.asset(
+                                        'assets/images/logo_for_dark.png',
+                                      );
+                                    },
                                   );
                                 },
                               ),
@@ -74,7 +106,7 @@ class _PositionTableWidgetState extends State<PositionTableWidget>{
                           ),
                           Expanded(child: Container(
                             alignment: Alignment.topLeft,
-                           // margin: EdgeInsets.only(top: 20),
+                            // margin: EdgeInsets.only(top: 20),
                             child: Column(
                               mainAxisAlignment: MainAxisAlignment.start,
                               crossAxisAlignment: CrossAxisAlignment.start,
@@ -105,8 +137,8 @@ class _PositionTableWidgetState extends State<PositionTableWidget>{
                               ],
                             ),
                           ),),
-                          Container(
-                           // margin: EdgeInsets.only(top: 30),
+                          if(menuController.deliveriesProducts.value.contains(pos.productId)==false) Container(
+                            // margin: EdgeInsets.only(top: 30),
                             alignment: Alignment.topRight,
                             child: IconButton(onPressed: (){
                               setState(() {
@@ -119,21 +151,21 @@ class _PositionTableWidgetState extends State<PositionTableWidget>{
                       ),
                     );
                   }),
-                  Container(
+                  if(menuController.deliveriesProducts.value.contains(pos.productId)==false) Container(
                     margin: EdgeInsets.only(left: 24,right: 24),
                     child:  Divider(
                       color: Color.fromRGBO(51, 51, 51, 1),
                       thickness: 0.3,
                     ),
                   ),
-                   SizedBox(
+                  if(menuController.deliveriesProducts.value.contains(pos.productId)==false) SizedBox(
                     height: _width>770?16:5,
                   ),
                   Container(
                     alignment: Alignment.centerLeft,
                     child: Row(
                       children: [
-                        Expanded(
+                        if(menuController.deliveriesProducts.value.contains(pos.productId)==false) Expanded(
                             child: Container(
                               child: Row(
                                 children: [
@@ -204,7 +236,7 @@ class _PositionTableWidgetState extends State<PositionTableWidget>{
                               ),
                             )),
                         Expanded(
-                          flex: _width>770?1: 2,
+                            flex: _width>770?1: 2,
                             child: Container(
                               child: Row(
                                 children: [
@@ -212,15 +244,15 @@ class _PositionTableWidgetState extends State<PositionTableWidget>{
                                   Expanded(
                                       flex:_width>770?3:4,
                                       child: Container(
-                                    margin: EdgeInsets.only(right: 24),
-                                    alignment: Alignment.centerRight,
-                                    child: Obx((){
-                                      return Text(
-                                        "${orderController.order.value.positions.firstWhere((element)=>element==pos).positionPrice!*pos.count!} ₸",
-                                        style: themData.textTheme.displayLarge,
-                                      );
-                                    }),
-                                  )),
+                                        margin: EdgeInsets.only(right: 24),
+                                        alignment: Alignment.centerRight,
+                                        child: Obx((){
+                                          return Text(
+                                            "${getPositionSum(pos)} ₸",//"${orderController.order.value.positions.firstWhere((element)=>element==pos).positionPrice!*pos.count!} ₸",
+                                            style: themData.textTheme.displayLarge,
+                                          );
+                                        }),
+                                      )),
                                 ],
                               ),
                             )),
@@ -228,11 +260,12 @@ class _PositionTableWidgetState extends State<PositionTableWidget>{
                       ],
                     ),
                   )
-              ],
+                ],
+              ),
             ),
-          ),
-        );
-      },
-    );
+          );
+        },
+      );
+    });
   }
 }

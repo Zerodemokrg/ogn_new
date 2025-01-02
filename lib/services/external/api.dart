@@ -27,12 +27,13 @@ class API{
     }
   }
 
-
   static Future<List<AddressItem>>getAddressNames(String s) async{
 
     http.Response response = await http.get(
         Uri.parse(MainConfig().getAddressNames+Uri.encodeComponent(s)), //url
         headers: {"Accept": "application/json"});
+    print("status code is ${response.statusCode}");
+    print( jsonEncode(response.body));
     if (response.statusCode == 200) {
 
       List<AddressItem>? request;
@@ -195,5 +196,60 @@ class API{
     } else {
       throw Exception('Failed to load Schedules');
     }
+  }
+
+
+  static Future<DeliveryCreateResponse> postDeliveryOrder(Order request, String restUrl) async {
+    final response = await http.post(
+      Uri.parse(restUrl),
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+      },
+      body: jsonEncode(request.toJson()),
+    );
+
+    if (response.statusCode == 200) {
+      // Декодируем JSON-ответ в Map
+      final Map<String, dynamic> jsonResponse = json.decode(response.body);
+
+      // Преобразуем Map в объект DeliveryCreateResponse
+      return DeliveryCreateResponse.fromJson(jsonResponse);
+    } else {
+      throw Exception('Failed to post appeal');
+    }
+  }
+  static Future<KaspiDataJson> postOrderToServerWithKaspiPay(Order request, String restUrl) async {
+    final response = await http.post(
+      Uri.parse(restUrl),
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+      },
+
+      body: jsonEncode(request.toJson()),
+    );
+
+    if (response.statusCode == 200) {
+      Map<String, dynamic> responseData = json.decode(response.body);
+      KaspiDataJson data = KaspiDataJson.fromJson(responseData);
+      return data;
+    } else {
+      return KaspiDataJson(PaymentLink: '',ExpireDate: '',PaymentId: BigInt.from(0));
+    }
+  }
+
+  static Future<OrderStatusResponse> getOrderStatus(String id) async{
+    OrderStatusRequest request =new OrderStatusRequest(paymentId: 1,paymentTransactionId: id);
+    final response = await http.post(
+      Uri.parse(MainConfig().getOrderStatusUrl),
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+      },
+      body: jsonEncode(request.toJson()
+      ),
+    );
+    var data= json.decode(response.body);
+
+    OrderStatusResponse statusInfo =OrderStatusResponse.fromJson(data);
+    return statusInfo;
   }
 }

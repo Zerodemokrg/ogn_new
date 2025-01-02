@@ -4,7 +4,6 @@ import '../../../main.dart';
 import '../../themes/defaultTheme.dart';
 import '../dialogs.dart';
 import 'banner_container.dart';
-import 'package:cached_network_image/cached_network_image.dart';
 
 class BannersWidget extends StatelessWidget implements PreferredSizeWidget {
   @override
@@ -31,7 +30,7 @@ class BannersWidget extends StatelessWidget implements PreferredSizeWidget {
                 child: AnimatedGradientBorderContainer(
                   borderRadius: 12,
                   borderWidth: 8,
-                  backgroundImage: CachedNetworkImageProvider(
+                  backgroundImage: NetworkImage(
                     bannersController.banners[index].imageLinkPreview!,
                   ),
                   child: Container(
@@ -74,7 +73,7 @@ class BannersWidget extends StatelessWidget implements PreferredSizeWidget {
                 child: AnimatedGradientBorderContainer(
                   borderRadius: 12,
                   borderWidth: 8,
-                  backgroundImage: CachedNetworkImageProvider(
+                  backgroundImage: NetworkImage(
                     bannersController.banners[index].imageLinkPreview!,
                   ),
                   child: Container(

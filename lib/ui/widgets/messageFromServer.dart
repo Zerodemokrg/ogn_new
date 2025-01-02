@@ -1,33 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:ogn/ui/widgets/products/product_window.dart';
-import '../../main.dart';
+import 'package:ogn/main.dart';
+import 'package:ogn/ui/themes/defaultTheme.dart';
+
 import '../../models/models.dart';
-import '../themes/defaultTheme.dart';
-import 'banners/banners_dialogs.dart';
-
-
-
-void showResponsiveDialog(BuildContext context,Product prod) {
-  showDialog(
-    context: context,
-    builder: (BuildContext context) {
-      return ResponsiveDialogWidget(product: prod,);
-    },
-  );
-}
-
-
-
-
-void showBannersResponsiveDialog(BuildContext context,int ind) {
-  showDialog(
-    context: context,
-    builder: (BuildContext context) {
-      return BannersDialogWidget(indexBanner: ind,);
-    },
-  );
-}
-
 
 class MessageFromServerWidget extends StatefulWidget{
   DeliveryCreateResponse data;
@@ -57,10 +32,11 @@ class _MessageFromServerWidgetState extends State<MessageFromServerWidget>{
       child: Container(
         height: 250,
         constraints: BoxConstraints(
+
           maxHeight: MediaQuery.of(context).size.height * 0.4, // Ма
           maxWidth: 400,// ксимальная высота содержимого
         ),
-        color: themData.scaffoldBackgroundColor,
+        color: Colors.white,
         alignment: Alignment.center,
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -68,14 +44,13 @@ class _MessageFromServerWidgetState extends State<MessageFromServerWidget>{
             Container(
               margin: EdgeInsets.only(left: 15,right: 15),
               alignment: Alignment.center,
-              child: Text(data.message,maxLines: 3,textAlign: TextAlign.center,),
+              child: Text(data.message!, style: themData.textTheme.displayMedium,maxLines: 3,textAlign: TextAlign.center,),
             ),
             SizedBox(
               height: 20,
             ),
             ElevatedButton(
                 style: ButtonStyle(
-                    backgroundColor: MaterialStateProperty.all<Color>(primaryColor),
                     shape: MaterialStateProperty.all<RoundedRectangleBorder>(
                         RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(20),
@@ -85,13 +60,13 @@ class _MessageFromServerWidgetState extends State<MessageFromServerWidget>{
                 ),
                 onPressed: (){
                   orderController.order.value=Order(positions: [], sumPrice: 0,deliverySum: 0,orderType: "delivery");
+                  orderController.deliveryInfo.value=DeliveryInfo(range: 0);
                   Get.toNamed('/');
                 },
-                child: Text("OK"))
+                child: Text("OK",style:themData.textTheme.bodyLarge,))
           ],
         ),
       ),
     );
   }
 }
-

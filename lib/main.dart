@@ -64,6 +64,7 @@ void main() async  {
   //   recommendationController.fetchData(),
   //   // Добавьте другие контроллеры здесь
   // ]);
+
   runApp(const MyApp());
 }
 
@@ -84,6 +85,28 @@ class MyApp extends StatelessWidget {
             title: 'Basket',
             showAppBar: true,
           ),
+        ),
+        GetPage(
+          name: '/qr',
+          page: () {
+            // Получаем параметры из URI
+            final departmentId = int.parse(Get.parameters['d']!);
+            final tableNumber = int.parse(Get.parameters['t']!);
+
+            // Устанавливаем значения в объект `order`
+            orderController.order.value.departmentId = departmentId;
+            orderController.order.value.tableNumber = tableNumber;
+            orderController.order.value.orderType = "inside";
+            print("departtmnent id ${orderController.order.value.departmentId}");
+            print("table id ${orderController.order.value.tableNumber}");
+            print("ordertype is ${orderController.order.value.orderType}");
+            // Возвращаем целевую страницу
+            return MainScaffold(
+              body: MainPage(),
+              title: 'mainPage',
+              showAppBar: true,
+            );
+          },
         ),
         GetPage(
           name: '/departments',
@@ -157,7 +180,7 @@ class MainScaffold extends StatelessWidget {
                 menuController.fetchData(),
                 stickersController.fetchData(),
                 recommendationController.fetchData(),
-          Future.delayed(const Duration(seconds: 1)),
+          Future.delayed(const Duration(milliseconds: 800)),
           // Добавьте другие контроллеры здесь
           ]),
           builder: (context,snapshot){

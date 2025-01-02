@@ -1,4 +1,3 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:ogn/ui/widgets/products/productModifierWidget.dart';
 import '../../../main.dart';
@@ -133,13 +132,13 @@ class _ResponsiveDialogWidgetState extends State<ResponsiveDialogWidget> {
   Widget build(BuildContext context) {
     double _width = MediaQuery.of(context).size.width;
     return LayoutBuilder(
-      builder: (context, constraints) {
+      builder: (context, raints) {
         // Определяем максимальные размеры
         double maxWidth = 1200.0;
         //double maxHeight = 400.0;
         // Определяем фактические размеры с учетом максимальных ограничений
-        double width = constraints.maxWidth * 0.8;
-        double height = constraints.maxHeight * 0.8;
+        double width = raints.maxWidth * 0.8;
+        double height = raints.maxHeight * 0.8;
         if (width > maxWidth) width = maxWidth;
         // if (height > maxHeight) height = maxHeight;
         return _width>770?Dialog(
@@ -150,7 +149,7 @@ class _ResponsiveDialogWidgetState extends State<ResponsiveDialogWidget> {
           child: Container(
               width: width,
               height: height,
-              padding: const EdgeInsets.all(5.0),
+              padding:  EdgeInsets.all(5.0),
               child: Stack(
                 fit: StackFit.expand,
                 children: [
@@ -171,16 +170,33 @@ class _ResponsiveDialogWidgetState extends State<ResponsiveDialogWidget> {
                               ),
                               child: ClipRRect(
                                 borderRadius: BorderRadius.circular(10),
-                                child:widget.product.videoLinkPreview==""?CachedNetworkImage(
+                                child:widget.product.videoLinkPreview==""?Image.network(
+                                  widget.product.imageLink,
                                   fit: BoxFit.fill,
-                                  imageUrl: widget.product.imageLink,
-                                  placeholder: (context, url) => const CircularProgressIndicator(),
-                                  errorWidget: (context, url, error) {
-                                    return CachedNetworkImage(
+                                  loadingBuilder: (context, child, loadingProgress) {
+                                    if (loadingProgress == null) return child; // Если загрузка завершена, показываем изображение
+                                    return Center(
+                                      child: CircularProgressIndicator(), // Иконка загрузки
+                                    );
+                                  },
+                                  errorBuilder: (context, error, stackTrace) {
+                                    // Если загрузка основного изображения не удалась, пробуем загрузить из другой ссылки
+                                    return Image.network(
+                                      widget.product.imageLinkFromExternalSystem,
                                       fit: BoxFit.fill,
-                                      imageUrl:  widget.product.imageLinkFromExternalSystem,
-                                      placeholder: (context, url) =>const CircularProgressIndicator(),
-                                      errorWidget: (context, url, error) => Image.asset('assets/images/logo_for_dark.png',width: 170,),
+                                      loadingBuilder: (context, child, loadingProgress) {
+                                        if (loadingProgress == null) return child; // Если загрузка завершена
+                                        return Center(
+                                          child: CircularProgressIndicator(),
+                                        );
+                                      },
+                                      errorBuilder: (context, error, stackTrace) {
+                                        // Если и второе изображение не загружается, показываем локальный логотип
+                                        return Image.asset(
+                                          'assets/images/logo_for_dark.png',
+                                          width: 170,
+                                        );
+                                      },
                                     );
                                   },
                                 ): YouTubeVideoPlayer(videoId: widget.product.videoLinkPreview),
@@ -188,10 +204,10 @@ class _ResponsiveDialogWidgetState extends State<ResponsiveDialogWidget> {
                             ),
                             Text(
                               widget.product.name,
-                              style: const TextStyle(fontSize: 28,),
+                              style:  TextStyle(fontSize: 28,),
                               maxLines: 2,overflow: TextOverflow.ellipsis,
                             ),
-                            const SizedBox(height: 20),
+                             SizedBox(height: 20),
                             Text(
                               widget.product.description,
                               style: TextStyle(fontSize: 16,),
@@ -207,7 +223,7 @@ class _ResponsiveDialogWidgetState extends State<ResponsiveDialogWidget> {
                                 if (widget.product.modifiers?.isNotEmpty==true)
                                   SliverToBoxAdapter(
                                     child: Container(
-                                      margin: const EdgeInsets.only(left: 24),
+                                      margin:  EdgeInsets.only(left: 24),
                                       child: Column(
                                         mainAxisAlignment: MainAxisAlignment.start,
                                         crossAxisAlignment: CrossAxisAlignment.start,
@@ -216,7 +232,7 @@ class _ResponsiveDialogWidgetState extends State<ResponsiveDialogWidget> {
                                               alignment: Alignment.centerLeft,
                                               child:  GradientText(
                                                 "$nameAdditional",
-                                                gradient: const LinearGradient(
+                                                gradient:  LinearGradient(
                                                   colors: <Color>[
                                                     Color.fromRGBO(220, 53, 42, 1),  // rgba(220, 53, 42, 1)
                                                     Color.fromRGBO(255, 214, 10, 1), // rgba(255, 214, 10, 1)
@@ -227,7 +243,7 @@ class _ResponsiveDialogWidgetState extends State<ResponsiveDialogWidget> {
                                                 sizeFont: 18,
                                               )
                                           ),
-                                          const  SizedBox(
+                                            SizedBox(
                                             height: 10,
                                           ),
                                           Container(
@@ -319,7 +335,7 @@ class _ResponsiveDialogWidgetState extends State<ResponsiveDialogWidget> {
                                               alignment: Alignment.centerLeft,
                                               child:  GradientText(
                                                 "${nameRecommendation}",
-                                                gradient: const LinearGradient(
+                                                gradient:  LinearGradient(
                                                   colors: <Color>[
                                                     Color.fromRGBO(220, 53, 42, 1),  // rgba(220, 53, 42, 1)
                                                     Color.fromRGBO(255, 214, 10, 1), // rgba(255, 214, 10, 1)
@@ -330,7 +346,7 @@ class _ResponsiveDialogWidgetState extends State<ResponsiveDialogWidget> {
                                                 sizeFont: 18,
                                               )
                                           ),
-                                          const  SizedBox(
+                                            SizedBox(
                                             height: 10,
                                           ),
                                           Container(
@@ -421,7 +437,7 @@ class _ResponsiveDialogWidgetState extends State<ResponsiveDialogWidget> {
                                               alignment: Alignment.centerLeft,
                                               child:  GradientText(
                                                 menuController.getGroupNameFilteredByLanguage(grmod.guid),
-                                                gradient: const LinearGradient(
+                                                gradient:  LinearGradient(
                                                   colors: <Color>[
                                                     Color.fromRGBO(220, 53, 42, 1),  // rgba(220, 53, 42, 1)
                                                     Color.fromRGBO(255, 214, 10, 1), // rgba(255, 214, 10, 1)
@@ -432,7 +448,7 @@ class _ResponsiveDialogWidgetState extends State<ResponsiveDialogWidget> {
                                                 sizeFont: 18,
                                               )
                                           ),
-                                          const  SizedBox(
+                                            SizedBox(
                                             height: 10,
                                           ),
                                           Container(
@@ -517,7 +533,7 @@ class _ResponsiveDialogWidgetState extends State<ResponsiveDialogWidget> {
                                                   ],
                                                 ),)
                                           ),
-                                          const  SizedBox(
+                                            SizedBox(
                                             height: 20,
                                           ),
                                         ],
@@ -585,7 +601,7 @@ class _ResponsiveDialogWidgetState extends State<ResponsiveDialogWidget> {
                                         child: Container(
                                           height: 32,
                                           width: 32,
-                                          decoration:const BoxDecoration(
+                                          decoration: BoxDecoration(
                                             shape: BoxShape.circle,
                                             gradient: LinearGradient(
                                               colors: [
@@ -596,7 +612,7 @@ class _ResponsiveDialogWidgetState extends State<ResponsiveDialogWidget> {
                                               end: Alignment.bottomRight,
                                             ),
                                           ),
-                                          child: const Icon(Icons.add),
+                                          child: Icon(Icons.add),
                                         ),
                                         onTap: () {
                                           setState(() {
@@ -684,16 +700,41 @@ class _ResponsiveDialogWidgetState extends State<ResponsiveDialogWidget> {
                             ),
                             child: ClipRRect(
                               borderRadius: BorderRadius.circular(10),
-                              child:widget.product.videoLinkPreview==""?CachedNetworkImage(
+                              child:widget.product.videoLinkPreview==""?Image.network(
+                                widget.product.imageLink,
                                 fit: BoxFit.fill,
-                                imageUrl: widget.product.imageLink,
-                                placeholder: (context, url) => CircularProgressIndicator(),
-                                errorWidget: (context, url, error) {
-                                  return CachedNetworkImage(
+                                loadingBuilder: (context, child, loadingProgress) {
+                                  if (loadingProgress == null) {
+                                    // Изображение загружено, показываем его
+                                    return child;
+                                  }
+                                  // Показываем индикатор загрузки
+                                  return Center(
+                                    child: CircularProgressIndicator(),
+                                  );
+                                },
+                                errorBuilder: (context, error, stackTrace) {
+                                  // Если основное изображение не удалось загрузить, пробуем другое
+                                  return Image.network(
+                                    widget.product.imageLinkFromExternalSystem,
                                     fit: BoxFit.fill,
-                                    imageUrl:  widget.product.imageLinkFromExternalSystem,
-                                    placeholder: (context, url) => CircularProgressIndicator(),
-                                    errorWidget: (context, url, error) => Image.asset('assets/images/logo_for_dark.png',width: 170,),
+                                    loadingBuilder: (context, child, loadingProgress) {
+                                      if (loadingProgress == null) {
+                                        // Изображение из альтернативного источника загружено
+                                        return child;
+                                      }
+                                      // Показываем индикатор загрузки
+                                      return Center(
+                                        child: CircularProgressIndicator(),
+                                      );
+                                    },
+                                    errorBuilder: (context, error, stackTrace) {
+                                      // Если оба изображения не загрузились, показываем локальное
+                                      return Image.asset(
+                                        'assets/images/logo_for_dark.png',
+                                        width: 170,
+                                      );
+                                    },
                                   );
                                 },
                               ): YouTubeVideoPlayer(videoId: widget.product.videoLinkPreview),
@@ -732,8 +773,8 @@ class _ResponsiveDialogWidgetState extends State<ResponsiveDialogWidget> {
                               Container(
                                   alignment: Alignment.centerLeft,
                                   child:  GradientText(
-                                    "${nameAdditional}",
-                                    gradient: const LinearGradient(
+                                    nameAdditional,
+                                    gradient:  LinearGradient(
                                       colors: <Color>[
                                         Color.fromRGBO(220, 53, 42, 1),  // rgba(220, 53, 42, 1)
                                         Color.fromRGBO(255, 214, 10, 1), // rgba(255, 214, 10, 1)
@@ -744,7 +785,7 @@ class _ResponsiveDialogWidgetState extends State<ResponsiveDialogWidget> {
                                     sizeFont: 18,
                                   )
                               ),
-                              const  SizedBox(
+                                SizedBox(
                                 height: 10,
                               ),
                               Container(
@@ -826,7 +867,7 @@ class _ResponsiveDialogWidgetState extends State<ResponsiveDialogWidget> {
                                   alignment: Alignment.centerLeft,
                                   child:  GradientText(
                                     "${nameRecommendation}",
-                                    gradient: const LinearGradient(
+                                    gradient:  LinearGradient(
                                       colors: <Color>[
                                         Color.fromRGBO(220, 53, 42, 1),  // rgba(220, 53, 42, 1)
                                         Color.fromRGBO(255, 214, 10, 1), // rgba(255, 214, 10, 1)
@@ -837,7 +878,7 @@ class _ResponsiveDialogWidgetState extends State<ResponsiveDialogWidget> {
                                     sizeFont: 18,
                                   )
                               ),
-                              const  SizedBox(
+                                SizedBox(
                                 height: 10,
                               ),
                               Container(
@@ -928,7 +969,7 @@ class _ResponsiveDialogWidgetState extends State<ResponsiveDialogWidget> {
                                     alignment: Alignment.centerLeft,
                                     child:  GradientText(
                                       menuController.getGroupNameFilteredByLanguage(grmod.guid),
-                                      gradient: const LinearGradient(
+                                      gradient:  LinearGradient(
                                         colors: <Color>[
                                           Color.fromRGBO(220, 53, 42, 1),  // rgba(220, 53, 42, 1)
                                           Color.fromRGBO(255, 214, 10, 1), // rgba(255, 214, 10, 1)
@@ -939,7 +980,7 @@ class _ResponsiveDialogWidgetState extends State<ResponsiveDialogWidget> {
                                       sizeFont: 18,
                                     )
                                 ),
-                                const  SizedBox(
+                                  SizedBox(
                                   height: 10,
                                 ),
                                 Container(
@@ -994,7 +1035,7 @@ class _ResponsiveDialogWidgetState extends State<ResponsiveDialogWidget> {
                                                         Stack(
                                                           children: [
                                                             Container(
-                                                              margin: const EdgeInsets.only(top: 16),
+                                                              margin: EdgeInsets.only(top: 16),
                                                               height: 120,
                                                               width: 120,
 
@@ -1023,7 +1064,7 @@ class _ResponsiveDialogWidgetState extends State<ResponsiveDialogWidget> {
                                         ],
                                       ),)
                                 ),
-                                const  SizedBox(
+                                  SizedBox(
                                   height: 20,
                                 ),
                               ],
@@ -1053,6 +1094,8 @@ class _ResponsiveDialogWidgetState extends State<ResponsiveDialogWidget> {
                                       child: Container(
                                         height: 50,
                                         width: 50,
+
+
                                         child: Icon(Icons.remove,color:Colors.white),
                                       ),
                                       onTap: () {
@@ -1087,18 +1130,18 @@ class _ResponsiveDialogWidgetState extends State<ResponsiveDialogWidget> {
                                       child: Container(
                                         height: 32,
                                         width: 32,
-                                        decoration: const BoxDecoration(
+                                        decoration: BoxDecoration(
                                           shape: BoxShape.circle,
                                           gradient: LinearGradient(
                                             colors: [
-                                               Color.fromRGBO(220, 53, 42, 1),  // Красный цвет
+                                              Color.fromRGBO(220, 53, 42, 1),  // Красный цвет
                                               Color.fromRGBO(255, 214, 10, 1), // Желтый цвет
                                             ],
                                             begin: Alignment.topLeft,
                                             end: Alignment.bottomRight,
                                           ),
                                         ),
-                                        child: const Icon(Icons.add),
+                                        child: Icon(Icons.add),
                                       ),
                                       onTap: () {
                                         setState(() {

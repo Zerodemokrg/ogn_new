@@ -1,4 +1,7 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
+import 'package:ogn/services/external/api.dart';
 import 'package:ogn/ui/themes/defaultTheme.dart';
 import '../../main.dart';
 
@@ -64,9 +67,12 @@ class _SiteSliverAppBarState extends State<SiteSliverAppBar> {
                             ),
                           ),
                           const SizedBox(width: 10),
-                          if (_width>1000) Container(
-                            height: 20,
-                            child: Text('Жалобы и предложения'),
+                          if (_width>1000) GestureDetector(
+                            onTap: ()=>Get.toNamed('/appeal'),
+                            child: Container(
+                              height: 20,
+                              child: Text('Жалобы и предложения'),
+                            ),
                           ),
                           if (_width>700) const SizedBox(width: 10),
                           Container(
@@ -99,7 +105,11 @@ class _SiteSliverAppBarState extends State<SiteSliverAppBar> {
                       width: _width < 700 ? 140 : 205,
                       height: 56,
                       child: ElevatedButton(
-                        onPressed: () => Get.toNamed('/basket'),
+                        onPressed: ()  {
+                          // var res =await API.getAddressNames("Мангилик ел 53");
+                          // print("result addressed is count ${jsonEncode(res.first)}");
+                          Get.toNamed('/basket');
+                        },
                         child: Row(
                           children: [
                             if (_width < 700) Icon(Icons.shopping_cart_rounded),

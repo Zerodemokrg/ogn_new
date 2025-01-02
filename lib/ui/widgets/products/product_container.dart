@@ -1,4 +1,3 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:ogn/main.dart';
 import 'package:ogn/ui/themes/defaultTheme.dart';
@@ -36,7 +35,7 @@ class _ProductContainerState extends State<ProductContainer>{
           children: [
             Container(
               alignment: Alignment.topCenter,
-              height: 250,
+
               child: Stack(
                 children: [
                   Container(

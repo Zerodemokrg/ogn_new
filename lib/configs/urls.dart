@@ -1,6 +1,6 @@
-String mainUrl='/newback/api';
-//String mainUrl='https://ogn.kz/newback/api';
-//String mainUrl='http://ogn.kz:50055/api';
+//String mainUrl='/newback';
+String mainUrl='https://ogn.kz/newback';
+//String mainUrl='http://localhost:50055';
 class MainConfig{
   String getMenuUrl='$mainUrl/get/menu';
 
@@ -33,9 +33,11 @@ class MainConfig{
 
   String getRecommendationsUrl='$mainUrl/get/recommendations';
 
+  String sendDeliveryOrderToServerUrl='$mainUrl/create/delivery';
+  String sendDeliveryWithKaspiQRToServerUrl='$mainUrl/create/deliveryByKaspiQR';
 
   String getDeliveriesUrl='$mainUrl/get/deliveries';
-
+  String getOrderStatusUrl='$mainUrl/checkstatus/deliveryByKaspiQR';
 
   String getDeliveryConfigsUrl='$mainUrl/get/deliveryConfigs';
   String getDeliveryPriceUrl='$mainUrl/calculate/distance';

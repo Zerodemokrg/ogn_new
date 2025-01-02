@@ -16,6 +16,7 @@ class ValidClientInfo{
   bool flat=true;
 //ValidClientInfo({});
 }
+ValidClientInfo checkValid=ValidClientInfo();
 
 class DeliveryForm extends StatefulWidget{
   @override
@@ -25,22 +26,22 @@ class DeliveryForm extends StatefulWidget{
 class _DeliveryFormState extends State<DeliveryForm>{
 
 
-  TextEditingController _controllerPhone = TextEditingController();
-  TextEditingController _controllerName = TextEditingController();
-  TextEditingController _controllerFlat = TextEditingController();
-  TextEditingController _controllerEntrance = TextEditingController();
-  TextEditingController _controllerFloor = TextEditingController();
-  TextEditingController _controllerDoorPhone = TextEditingController();
-  TextEditingController _controllerComment = TextEditingController();
-  TextEditingController _textEditingControllerAddress = TextEditingController();
+  // TextEditingController _controllerPhone = TextEditingController();
+  // TextEditingController _controllerName = TextEditingController();
+  // TextEditingController _controllerFlat = TextEditingController();
+  // TextEditingController _controllerEntrance = TextEditingController();
+  // TextEditingController _controllerFloor = TextEditingController();
+  // TextEditingController _controllerDoorPhone = TextEditingController();
+  // TextEditingController _controllerComment = TextEditingController();
+  // TextEditingController _textEditingControllerAddress = TextEditingController();
 
   Timer? _debounceTimer;
-  ValidClientInfo checkValid=ValidClientInfo();
+
   List<AddressItem> addresses=[];
-  AddressItem? SelectedAddres;
+  //AddressItem? SelectedAddres;
   List<String> posRecs=[];
-  int? SelectedDepartmentId;
-  int range=0;
+  //int? SelectedDepartmentId;
+  //int range=0;
   bool isPushedButton=false;
   double degreesToRadians(double degrees) {
     return degrees * pi / 180.0;
@@ -62,16 +63,17 @@ class _DeliveryFormState extends State<DeliveryForm>{
   int GetNearestDepId(AddressItem start){
     int result=-1;
     int resultId=-1;
-    print("количество филиалов:${departmentsController.departments.where((element) => element.working==true  && CheckBasketInDep(element.id!)==true).length}");
+    print("количество филиалов:${departmentsController.departments.where((element) => element.forSite==true && element.working==true  && CheckBasketInDep(element.id!)==true).length}");
 
-    print("количество филиалов которые могут приготовить:${departmentsController.departments.where((element) => element.working==true && CheckBasketInDep(element.id!)==true ).length}");
-    for (var dep in departmentsController.departments.where((element) => element.working==true && CheckBasketInDep(element.id!)==true)){
+    print("количество филиалов которые могут приготовить:${departmentsController.departments.where((element) =>element.forSite==true && element.working==true && CheckBasketInDep(element.id!)==true ).length}");
+    for (var dep in departmentsController.departments.where((element) =>element.forSite==true && element.working==true && CheckBasketInDep(element.id!)==true)){
       if (result==-1){
         result=distanceInAir(start.point.lat, start.point.lon, dep.latitude!,dep.longitude!);
         print("dep id: ${dep.id} distance on air:$result");
       }
       if (result!=-1){
         int distance=distanceInAir(start.point.lat, start.point.lon, dep.latitude!,dep.longitude!);
+        print("next dep id: ${dep.id} distance on air:$distance");
         if (distance<=result){
           result=distance;
           resultId=dep.id!;
@@ -106,7 +108,7 @@ class _DeliveryFormState extends State<DeliveryForm>{
             Container(
               padding: EdgeInsets.all(25),
               child: TextFormField(
-                controller: _controllerName,
+                controller: orderController.deliveryInfo.value.controllerName,
                 decoration:  InputDecoration(
                   errorText:  checkValid.name==false?(localSettingsController.selectLanguage.value=="RU"?nameNameFailInForm.first:(localSettingsController.selectLanguage.value=="KZ"?nameNameFailInForm[1]:nameNameFailInForm[2])):null,
                   filled: true,
@@ -121,11 +123,11 @@ class _DeliveryFormState extends State<DeliveryForm>{
                 onChanged: (text){
                   //order.clientName=text;
                   setState(() {
-                    _controllerName.text=text;
-                    _controllerName.selection = TextSelection.fromPosition(
-                      TextPosition(offset: _controllerName.text.length),
+                    orderController.deliveryInfo.value.controllerName.text=text;
+                    orderController.deliveryInfo.value.controllerName.selection = TextSelection.fromPosition(
+                      TextPosition(offset:  orderController.deliveryInfo.value.controllerName.text.length),
                     );
-                    if(_controllerName.text.length>0){
+                    if( orderController.deliveryInfo.value.controllerName.text.length>0){
                       checkValid.name=true;
                     }
                   });
@@ -139,7 +141,7 @@ class _DeliveryFormState extends State<DeliveryForm>{
 
                 inputFormatters: [FilteringTextInputFormatter.digitsOnly],
                 keyboardType: TextInputType.phone,
-                controller: _controllerPhone,
+                controller:  orderController.deliveryInfo.value.controllerPhone,
                 decoration: new InputDecoration(
                   errorText:  checkValid.phone==false?localSettingsController.selectLanguage.value=="RU"?namePhoneFailInForm.first:(localSettingsController.selectLanguage.value=="KZ"?namePhoneFailInForm[1]:namePhoneFailInForm[2]):null,
                   filled: true,
@@ -152,11 +154,11 @@ class _DeliveryFormState extends State<DeliveryForm>{
                 onChanged: (text){
                   setState(() {
                     //   order.clientPhone=text;
-                    _controllerPhone.text="+"+text;
-                    _controllerPhone.selection=TextSelection.fromPosition(
-                      TextPosition(offset: _controllerPhone.text.length),
+                    orderController.deliveryInfo.value.controllerPhone.text="+"+text;
+                    orderController.deliveryInfo.value.controllerPhone.selection=TextSelection.fromPosition(
+                      TextPosition(offset:  orderController.deliveryInfo.value.controllerPhone.text.length),
                     );
-                    if (_controllerPhone.text.length==12){
+                    if ( orderController.deliveryInfo.value.controllerPhone.text.length==12){
                       checkValid.phone=true;
                     } else {
                       checkValid.phone=false;
@@ -184,6 +186,38 @@ class _DeliveryFormState extends State<DeliveryForm>{
                   });
                   return filteredAddresses;
                 },
+                optionsViewBuilder: (BuildContext context, AutocompleteOnSelected<AddressItem> onSelected, Iterable<AddressItem> options) {
+                  return Align(
+                    alignment: Alignment.topLeft,
+                    child: Material(
+                      color: Colors.black, // Цвет фона выпадающего меню
+                      elevation: 4.0,
+                      child: SizedBox(
+                        height: 200.0, // Максимальная высота выпадающего меню
+                        child: ListView.builder(
+                          padding: EdgeInsets.all(8.0),
+                          itemCount: options.length,
+                          itemBuilder: (BuildContext context, int index) {
+                            final AddressItem option = options.elementAt(index);
+                            return GestureDetector(
+                              onTap: () {
+                                onSelected(option);
+                              },
+                              child: Container(
+                                color: Colors.transparent,
+                                padding: EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
+                                child: Text(
+                                  option.address_name,
+                                  style: TextStyle(color: Colors.white), // Цвет текста
+                                ),
+                              ),
+                            );
+                          },
+                        ),
+                      ),
+                    ),
+                  );
+                },
                 displayStringForOption: (AddressItem option)=>option.address_name,
                 onSelected: (AddressItem location) async {
                   setState(() {
@@ -194,9 +228,9 @@ class _DeliveryFormState extends State<DeliveryForm>{
 
                       if (containsOnlyDigits) {
 
-                        _textEditingControllerAddress.text = location.address_name;
+                        orderController.deliveryInfo.value.textEditingControllerAddress.text = location.address_name;
                       } else {
-                        _textEditingControllerAddress.text = location.address_name;
+                        orderController.deliveryInfo.value.textEditingControllerAddress.text = location.address_name;
                         location.address_name=parts[0];
 
                       }
@@ -204,22 +238,24 @@ class _DeliveryFormState extends State<DeliveryForm>{
 
 
                     } else {
-                      _textEditingControllerAddress.text = location.address_name;
+                      orderController.deliveryInfo.value.textEditingControllerAddress.text = location.address_name;
                     }
-                    SelectedAddres=location;
+                   // SelectedAddres=location;
+                    orderController.deliveryInfo.value.selectedAddress=location;
                     checkValid.address=true;
                   });
 
-                  SelectedDepartmentId=GetNearestDepId(SelectedAddres!);
-                  CalculateDistanceRequest req=CalculateDistanceRequest(idDepartment: SelectedDepartmentId!, startPoint: SelectedAddres!.point);
+                  orderController.deliveryInfo.value.selectedDepartmentId=GetNearestDepId(orderController.deliveryInfo.value.selectedAddress!);
+                  CalculateDistanceRequest req=CalculateDistanceRequest(idDepartment: orderController.deliveryInfo.value.selectedDepartmentId!, startPoint: orderController.deliveryInfo.value.selectedAddress!.point);
 
                   int res=await API.postCalculateDistance(req, MainConfig().getDeliveryPriceUrl);
-                  range=res;
+                  print("disnance on the road is :${res}");
+                  orderController.deliveryInfo.value.range=res;
                 },
                 fieldViewBuilder: (BuildContext context, TextEditingController textEditingController, FocusNode focusNode, VoidCallback onFieldSubmitted) {
                   // Здесь вы возвращаете оригинальный виджет TextFormField
                   return TextFormField(
-                    controller: _textEditingControllerAddress,//test,
+                    controller:  orderController.deliveryInfo.value.textEditingControllerAddress,//test,
                     focusNode: focusNode,
                     onFieldSubmitted: (value) {
                       onFieldSubmitted();
@@ -241,10 +277,8 @@ class _DeliveryFormState extends State<DeliveryForm>{
                       setState(() {
                         checkValid.address=false;
                       });
-
                       if (text.length>2){
                         _debounceTimer?.cancel();
-
                         // Создаем новый таймер, который вызовет функцию через 3 секунды
                         _debounceTimer = Timer(Duration(milliseconds: 800), () async {
                           // Ваш код функции, которую хотите вызвать
@@ -271,7 +305,7 @@ class _DeliveryFormState extends State<DeliveryForm>{
                         margin: EdgeInsets.only(),
                         padding: EdgeInsets.all(25),
                         child: TextFormField(
-                          controller: _controllerFlat,
+                          controller:  orderController.deliveryInfo.value.controllerFlat,
                           decoration: new InputDecoration(
                             errorText:  checkValid.flat==false?localSettingsController.selectLanguage.value=="RU"?nameApartmentInForm.first:(localSettingsController.selectLanguage.value=="KZ"?nameApartmentInForm[1]:nameApartmentInForm[2]):null,
                             filled: true,
@@ -283,11 +317,11 @@ class _DeliveryFormState extends State<DeliveryForm>{
                           ),
                           onChanged: (text){
                             setState(() {
-                              _controllerFlat.text=text;
-                              _controllerFlat.selection=TextSelection.fromPosition(
-                                TextPosition(offset: _controllerFlat.text.length),
+                               orderController.deliveryInfo.value.controllerFlat.text=text;
+                               orderController.deliveryInfo.value.controllerFlat.selection=TextSelection.fromPosition(
+                                TextPosition(offset:  orderController.deliveryInfo.value.controllerFlat.text.length),
                               );
-                              if (_controllerFlat.text.length>0){
+                              if ( orderController.deliveryInfo.value.controllerFlat.text.length>0){
                                 checkValid.flat=true;
                               } else {
 
@@ -304,7 +338,7 @@ class _DeliveryFormState extends State<DeliveryForm>{
                         margin: EdgeInsets.only(),
                         padding: EdgeInsets.all(25),
                         child: TextFormField(
-                          controller: _controllerEntrance,
+                          controller:  orderController.deliveryInfo.value.controllerEntrance,
                           decoration: new InputDecoration(
                             filled: true,
                             fillColor: Colors.black,
@@ -315,9 +349,9 @@ class _DeliveryFormState extends State<DeliveryForm>{
                           ),
                           onChanged: (text){
                             setState(() {
-                              _controllerEntrance.text=text;
-                              _controllerEntrance.selection=TextSelection.fromPosition(
-                                TextPosition(offset: _controllerEntrance.text.length),
+                               orderController.deliveryInfo.value.controllerEntrance.text=text;
+                               orderController.deliveryInfo.value.controllerEntrance.selection=TextSelection.fromPosition(
+                                TextPosition(offset:  orderController.deliveryInfo.value.controllerEntrance.text.length),
                               );
                             });
                           },
@@ -333,7 +367,7 @@ class _DeliveryFormState extends State<DeliveryForm>{
                        margin: EdgeInsets.only(),
                        padding: EdgeInsets.all(25),
                        child: TextFormField(
-                         controller:_controllerFloor,
+                         controller: orderController.deliveryInfo.value.controllerFloor,
                          decoration: new InputDecoration(
                            filled: true,
                            fillColor: Colors.black,
@@ -344,9 +378,9 @@ class _DeliveryFormState extends State<DeliveryForm>{
                          ),
                          onChanged: (text){
                            setState(() {
-                             _controllerFloor.text=text;
-                             _controllerFloor.selection=TextSelection.fromPosition(
-                               TextPosition(offset: _controllerFloor.text.length),
+                             orderController.deliveryInfo.value.controllerFloor.text=text;
+                             orderController.deliveryInfo.value.controllerFloor.selection=TextSelection.fromPosition(
+                               TextPosition(offset:  orderController.deliveryInfo.value.controllerFloor.text.length),
                              );
                            });
                          },
@@ -358,7 +392,7 @@ class _DeliveryFormState extends State<DeliveryForm>{
                        margin: EdgeInsets.only(),
                        padding: EdgeInsets.all(25),
                        child: TextFormField(
-                         controller: _controllerDoorPhone,
+                         controller:  orderController.deliveryInfo.value.controllerDoorPhone,
                          decoration: new InputDecoration(
                            filled: true,
                            fillColor: Colors.black,
@@ -369,9 +403,9 @@ class _DeliveryFormState extends State<DeliveryForm>{
                          ),
                          onChanged: (text){
                            setState(() {
-                             _controllerDoorPhone.text=text;
-                             _controllerDoorPhone.selection=TextSelection.fromPosition(
-                               TextPosition(offset: _controllerDoorPhone.text.length),
+                              orderController.deliveryInfo.value.controllerDoorPhone.text=text;
+                              orderController.deliveryInfo.value.controllerDoorPhone.selection=TextSelection.fromPosition(
+                               TextPosition(offset:  orderController.deliveryInfo.value.controllerDoorPhone.text.length),
                              );
                            });
                          },
@@ -390,7 +424,7 @@ class _DeliveryFormState extends State<DeliveryForm>{
                     margin: EdgeInsets.only(),
                     padding: EdgeInsets.all(25),
                     child: TextFormField(
-                      controller: _controllerFlat,
+                      controller:  orderController.deliveryInfo.value.controllerFlat,
                       decoration: new InputDecoration(
                         errorText:  checkValid.flat==false?localSettingsController.selectLanguage.value=="RU"?nameApartmentInForm.first:(localSettingsController.selectLanguage.value=="KZ"?nameApartmentInForm[1]:nameApartmentInForm[2]):null,
                         filled: true,
@@ -402,11 +436,11 @@ class _DeliveryFormState extends State<DeliveryForm>{
                       ),
                       onChanged: (text){
                         setState(() {
-                          _controllerFlat.text=text;
-                          _controllerFlat.selection=TextSelection.fromPosition(
-                            TextPosition(offset: _controllerFlat.text.length),
+                           orderController.deliveryInfo.value.controllerFlat.text=text;
+                           orderController.deliveryInfo.value.controllerFlat.selection=TextSelection.fromPosition(
+                            TextPosition(offset:  orderController.deliveryInfo.value.controllerFlat.text.length),
                           );
-                          if (_controllerFlat.text.length>0){
+                          if ( orderController.deliveryInfo.value.controllerFlat.text.length>0){
                             checkValid.flat=true;
                           } else {
 
@@ -423,7 +457,7 @@ class _DeliveryFormState extends State<DeliveryForm>{
                     margin: EdgeInsets.only(),
                     padding: EdgeInsets.all(25),
                     child: TextFormField(
-                      controller: _controllerEntrance,
+                      controller:  orderController.deliveryInfo.value.controllerEntrance,
                       decoration: new InputDecoration(
                         filled: true,
                         fillColor: Colors.black,
@@ -434,9 +468,9 @@ class _DeliveryFormState extends State<DeliveryForm>{
                       ),
                       onChanged: (text){
                         setState(() {
-                          _controllerEntrance.text=text;
-                          _controllerEntrance.selection=TextSelection.fromPosition(
-                            TextPosition(offset: _controllerEntrance.text.length),
+                           orderController.deliveryInfo.value.controllerEntrance.text=text;
+                           orderController.deliveryInfo.value.controllerEntrance.selection=TextSelection.fromPosition(
+                            TextPosition(offset:  orderController.deliveryInfo.value.controllerEntrance.text.length),
                           );
                         });
                       },
@@ -448,7 +482,7 @@ class _DeliveryFormState extends State<DeliveryForm>{
                     margin: EdgeInsets.only(),
                     padding: EdgeInsets.all(25),
                     child: TextFormField(
-                      controller:_controllerFloor,
+                      controller: orderController.deliveryInfo.value.controllerFloor,
                       decoration: new InputDecoration(
                         filled: true,
                         fillColor: Colors.black,
@@ -459,9 +493,9 @@ class _DeliveryFormState extends State<DeliveryForm>{
                       ),
                       onChanged: (text){
                         setState(() {
-                          _controllerFloor.text=text;
-                          _controllerFloor.selection=TextSelection.fromPosition(
-                            TextPosition(offset: _controllerFloor.text.length),
+                           orderController.deliveryInfo.value.controllerFloor.text=text;
+                           orderController.deliveryInfo.value.controllerFloor.selection=TextSelection.fromPosition(
+                            TextPosition(offset:  orderController.deliveryInfo.value.controllerFloor.text.length),
                           );
                         });
                       },
@@ -473,7 +507,7 @@ class _DeliveryFormState extends State<DeliveryForm>{
                     margin: EdgeInsets.only(),
                     padding: EdgeInsets.all(25),
                     child: TextFormField(
-                      controller: _controllerDoorPhone,
+                      controller:  orderController.deliveryInfo.value.controllerDoorPhone,
                       decoration: new InputDecoration(
                         filled: true,
                         fillColor: Colors.black,
@@ -484,9 +518,9 @@ class _DeliveryFormState extends State<DeliveryForm>{
                       ),
                       onChanged: (text){
                         setState(() {
-                          _controllerDoorPhone.text=text;
-                          _controllerDoorPhone.selection=TextSelection.fromPosition(
-                            TextPosition(offset: _controllerDoorPhone.text.length),
+                           orderController.deliveryInfo.value.controllerDoorPhone.text=text;
+                           orderController.deliveryInfo.value.controllerDoorPhone.selection=TextSelection.fromPosition(
+                            TextPosition(offset:  orderController.deliveryInfo.value.controllerDoorPhone.text.length),
                           );
                         });
                       },
@@ -502,7 +536,7 @@ class _DeliveryFormState extends State<DeliveryForm>{
               margin: EdgeInsets.only(),
               padding: EdgeInsets.all(25),
               child: TextFormField(
-                controller: _controllerComment,
+                controller:  orderController.deliveryInfo.value.controllerComment,
                 keyboardType: TextInputType.multiline,
                 maxLines: null,
                 textAlignVertical: TextAlignVertical.top,
@@ -518,9 +552,9 @@ class _DeliveryFormState extends State<DeliveryForm>{
                 onChanged: (text){
                   setState(() {
                     setState(() {
-                      _controllerComment.text=text;
-                      _controllerComment.selection=TextSelection.fromPosition(
-                        TextPosition(offset: _controllerComment.text.length),
+                       orderController.deliveryInfo.value.controllerComment.text=text;
+                       orderController.deliveryInfo.value.controllerComment.selection=TextSelection.fromPosition(
+                        TextPosition(offset:  orderController.deliveryInfo.value.controllerComment.text.length),
                       );
                     });
                   });

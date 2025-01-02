@@ -1,5 +1,5 @@
 import 'package:json_annotation/json_annotation.dart';
-
+import 'package:flutter/material.dart';
 part 'models.g.dart';
 
 
@@ -14,6 +14,8 @@ class DeliveryCreateResponse{
   factory DeliveryCreateResponse.fromJson(Map<String, dynamic> json) => _$DeliveryCreateResponseFromJson(json);
   Map<String, dynamic> toJson() => _$DeliveryCreateResponseToJson(this);
 }
+
+
 @JsonSerializable()
 class Appeal {
   int? id;
@@ -63,7 +65,9 @@ class AddressItem {
   String name;
   PointCoordinate point;
   String purpose_name;
-  String type;List<AddressItem> addresses=[];
+  String type;
+
+  //List<AddressItem> addresses=[];
   AddressItem({required this.address_name,required this.building_name,required this.full_name,required this.id,required this.name,required this.point,required this.purpose_name,required this.type});
 
   // @override
@@ -308,9 +312,9 @@ class BannerSite{
     this.imageLink,
     this.videoLink});
 
-  factory BannerSite.fromJson(Map<String,dynamic> json)=>_$BannerFromJson(json);
+  factory BannerSite.fromJson(Map<String,dynamic> json)=>_$BannerSiteFromJson(json);
 
-  Map<String,dynamic> toJson()=>_$BannerToJson(this);
+  Map<String,dynamic> toJson()=>_$BannerSiteToJson(this);
 }
 
 @JsonSerializable()
@@ -499,6 +503,7 @@ class Day {
 class Order{
   String? orderType;
   int? departmentId;
+  int? tableNumber=1;
   PointCoordinate? coordinate;
   String? orderAddress;
   int? promocodeId;
@@ -515,10 +520,13 @@ class Order{
   String? clientFloor;
   String? clientDoorphone;
   String? clientEntrance;
-  Order({this.orderType,this.departmentId,this.coordinate,this.orderAddress,this.promocodeId,required this.positions,required this.deliverySum,this.comment,this.paymentType,required this.sumPrice});
+
+  Order({this.orderType,this.departmentId,this.coordinate,this.orderAddress,this.promocodeId,required this.positions,required this.deliverySum,this.comment,this.paymentType,required this.sumPrice,this.tableNumber});
 
   Order copyWith({
     List<Position>? positions,
+    int? departmentId,
+    int? tableNumber,
     int? deliverySum,
     int? sumPrice,
     String? orderType,
@@ -528,6 +536,8 @@ class Order{
       deliverySum: deliverySum ?? this.deliverySum,
       sumPrice: sumPrice ?? this.sumPrice,
       orderType: orderType ?? this.orderType,
+      departmentId: departmentId?? this.departmentId,
+      tableNumber: tableNumber??this.tableNumber,
     );
   }
 
@@ -577,4 +587,62 @@ class Recommendation {
 
   factory Recommendation.fromJson(Map<String, dynamic> json) => _$RecommendationFromJson(json);
   Map<String, dynamic> toJson() => _$RecommendationToJson(this);
+}
+
+
+
+
+class DeliveryInfo{
+  AddressItem? selectedAddress;
+  int range=0;
+  int? selectedDepartmentId;
+  TextEditingController controllerPhone = TextEditingController();
+  TextEditingController controllerName = TextEditingController();
+  TextEditingController controllerFlat = TextEditingController();
+  TextEditingController controllerEntrance = TextEditingController();
+  TextEditingController controllerFloor = TextEditingController();
+  TextEditingController controllerDoorPhone = TextEditingController();
+  TextEditingController controllerComment = TextEditingController();
+  TextEditingController textEditingControllerAddress = TextEditingController();
+
+  DeliveryInfo({required this.range});
+}
+
+
+
+class KaspiDataJson{
+  String PaymentLink;
+  String ExpireDate;
+  BigInt PaymentId;
+  KaspiDataJson({required this.PaymentLink,required this.ExpireDate,required this.PaymentId});
+  factory KaspiDataJson.fromJson(Map<String, dynamic> json) {
+    return KaspiDataJson(
+      PaymentLink: json['PaymentLink'],
+      ExpireDate: json['ExpireDate'],
+      PaymentId: BigInt.from(json['PaymentId']),
+      //PaymentKaspiId: json['PaymentId'].toString() ,
+    );
+  }
+}
+
+
+
+@JsonSerializable()
+class OrderStatusResponse {
+  String? orderStatus;
+  String? orderNumber;
+
+  OrderStatusResponse({this.orderStatus,this.orderNumber});
+  factory OrderStatusResponse.fromJson(Map<String,dynamic> json)=>_$OrderStatusResponseFromJson(json);
+  Map<String,dynamic> toJson()=>_$OrderStatusResponseToJson(this);
+}
+
+@JsonSerializable()
+class OrderStatusRequest {
+  int paymentId = 1;
+  String? paymentTransactionId;
+
+  OrderStatusRequest({required this.paymentId,this.paymentTransactionId});
+  factory OrderStatusRequest.fromJson(Map<String,dynamic> json)=>_$OrderStatusRequestFromJson(json);
+  Map<String,dynamic> toJson()=>_$OrderStatusRequestToJson(this);
 }

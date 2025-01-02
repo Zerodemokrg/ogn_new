@@ -11,26 +11,32 @@ class PaymentMethodSelector extends StatefulWidget {
 }
 
 class _PaymentMethodSelectorState extends State<PaymentMethodSelector> {
-  String selectedMethod = 'cash'; // Изначально выбран наличный расчет
+  //String selectedMethod = 'cash'; // Изначально выбран наличный расчет
 
   void selectMethod(String method) {
     setState(() {
-      selectedMethod = method;
+      orderController.order.value.paymentType = method;
     });
   }
 
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    selectMethod("cash");
+  }
   @override
   Widget build(BuildContext context) {
     double _width= MediaQuery.of(context).size.width ;
     return Row(
       //mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: [
-        // Первый вариант оплаты
+       // Первый вариант оплаты
         const SizedBox(
           width: 8,
         ),
         Expanded(child: GestureDetector(
-          onTap: () => selectMethod('kaspi_qr'),
+          onTap: () => selectMethod('kaspi'),
           child: Container(
             alignment: Alignment.center,
             width: 80, //
@@ -38,17 +44,17 @@ class _PaymentMethodSelectorState extends State<PaymentMethodSelector> {
             padding: EdgeInsets.all(16),
             decoration: BoxDecoration(
               border: Border.all(
-                color: selectedMethod == 'kaspi_qr' ? primaryColor : Colors.grey, // Цвет границы
-                width: selectedMethod == 'kaspi_qr' ?3:0.3, // Ширина границы
+                color: orderController.order.value.paymentType == 'kaspi' ? primaryColor : Colors.grey, // Цвет границы
+                width: orderController.order.value.paymentType == 'kaspi' ?3:0.3, // Ширина границы
               ),
               borderRadius: BorderRadius.circular(16), // Радиус углов
             ),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Icon(Icons.qr_code_scanner, size: 35,color:selectedMethod == 'kaspi_qr' ?primaryColor:Colors.white),
+                Icon(Icons.qr_code_scanner, size: 35,color:orderController.order.value.paymentType == 'kaspi' ?primaryColor:Colors.white),
                 SizedBox(height: 8),
-                Text('Kaspi QR', style: TextStyle(color: selectedMethod == 'kaspi_qr' ?primaryColor:Colors.white,fontSize: 12,fontWeight: FontWeight.w700)),
+                Text('Kaspi QR', style: TextStyle(color: orderController.order.value.paymentType == 'kaspi' ?primaryColor:Colors.white,fontSize: 12,fontWeight: FontWeight.w700)),
               ],
             ),
           ),
@@ -65,17 +71,17 @@ class _PaymentMethodSelectorState extends State<PaymentMethodSelector> {
             padding: EdgeInsets.all(16),
             decoration: BoxDecoration(
               border: Border.all(
-                color: selectedMethod == 'cash' ? primaryColor : Colors.grey, // Цвет границы
-                width: selectedMethod == 'cash' ?3:0.3, // Ширина границы
+                color: orderController.order.value.paymentType == 'cash' ? primaryColor : Colors.grey, // Цвет границы
+                width: orderController.order.value.paymentType == 'cash' ?3:0.3, // Ширина границы
               ),
               borderRadius: BorderRadius.circular(16), // Радиус углов
             ),
             child: Column(
               children: [
-                Icon(Icons.payments_outlined, size: 35, color:selectedMethod == 'cash' ?primaryColor: Colors.white),
+                Icon(Icons.payments_outlined, size: 35, color:orderController.order.value.paymentType == 'cash' ?primaryColor: Colors.white),
                 SizedBox(height: _width>770?8:10),
                 Obx((){
-                  return  Text(localSettingsController.selectLanguage.value=="RU"?nameCashToCourierPaymentTypeInButton.first:localSettingsController.selectLanguage.value=="KZ"?nameCashToCourierPaymentTypeInButton[1]:nameCashToCourierPaymentTypeInButton[2], style: TextStyle(color: selectedMethod == 'cash' ?primaryColor:Colors.white,fontWeight: FontWeight.w700,fontSize: _width>770?12:10));
+                  return  Text(localSettingsController.selectLanguage.value=="RU"?nameCashToCourierPaymentTypeInButton.first:localSettingsController.selectLanguage.value=="KZ"?nameCashToCourierPaymentTypeInButton[1]:nameCashToCourierPaymentTypeInButton[2], style: TextStyle(color: orderController.order.value.paymentType == 'cash' ?primaryColor:Colors.white,fontWeight: FontWeight.w700,fontSize: _width>770?12:10));
                 })
               ],
             ),
@@ -86,24 +92,24 @@ class _PaymentMethodSelectorState extends State<PaymentMethodSelector> {
           width: 8,
         ),
        Expanded(child:  GestureDetector(
-         onTap: () => selectMethod('card'),
+         onTap: () => selectMethod('cardToCourier'),
          child: Container(
            width: 80,
            height: 110,// Ширина контейнера
            padding: EdgeInsets.all(16),
            decoration: BoxDecoration(
              border: Border.all(
-               color: selectedMethod == 'card' ? primaryColor: Colors.grey, // Цвет границы
-               width: selectedMethod == 'card' ?3:0.3, // Ширина границы
+               color: orderController.order.value.paymentType == 'cardToCourier' ? primaryColor: Colors.grey, // Цвет границы
+               width: orderController.order.value.paymentType == 'cardToCourier' ?3:0.3, // Ширина границы
              ),
              borderRadius: BorderRadius.circular(16), // Радиус углов
            ),
            child: Column(
              children: [
-               Icon(Icons.add_card_outlined, size: 35, color: selectedMethod == 'card' ?primaryColor:Colors.white),
+               Icon(Icons.add_card_outlined, size: 35, color: orderController.order.value.paymentType == 'cardToCourier' ?primaryColor:Colors.white),
                SizedBox(height: 8),
                Obx((){
-                 return  Text(localSettingsController.selectLanguage.value=="RU"?nameCardToCourierPaymentTypeInButton.first:localSettingsController.selectLanguage.value=="KZ"?nameCardToCourierPaymentTypeInButton[1]:nameCardToCourierPaymentTypeInButton[2], style: TextStyle(color: selectedMethod == 'card' ?primaryColor:Colors.white,fontWeight: FontWeight.w700,fontSize: _width>770?12:10),textAlign: TextAlign.center,);
+                 return  Text(localSettingsController.selectLanguage.value=="RU"?nameCardToCourierPaymentTypeInButton.first:localSettingsController.selectLanguage.value=="KZ"?nameCardToCourierPaymentTypeInButton[1]:nameCardToCourierPaymentTypeInButton[2], style: TextStyle(color: orderController.order.value.paymentType == 'cardToCourier' ?primaryColor:Colors.white,fontWeight: FontWeight.w700,fontSize: _width>770?12:10),textAlign: TextAlign.center,);
                })             ],
            ),
          ),

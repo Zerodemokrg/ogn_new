@@ -1,4 +1,3 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -54,7 +53,7 @@ class _DepartmentsPageState extends State<DepartmentsPage>{
                   spacing: 20,
                   runSpacing: 30,
                   children: [
-                    for (var dep in departmentsController.departments)
+                    for (var dep in departmentsController.departments.where((x)=>x.forSite==true))
                       GestureDetector(
                         child: Container(
                           decoration: BoxDecoration(

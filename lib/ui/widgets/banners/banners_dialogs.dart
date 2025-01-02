@@ -37,12 +37,19 @@ class _BannersDialogWidgetState extends State<BannersDialogWidget> {
               itemCount: bannersController.banners.length,
               itemBuilder: (context, index, realIndex) {
                 return Container(
+                  color: Colors.black,
                   margin: EdgeInsets.all(10),
                   child: AnimatedGradientBorderContainer(
                     borderRadius: 16, borderWidth: 5,
                     backgroundImage:  NetworkImage(
-                        bannersController.banners[index].imageLink!
-                    ), child: Image.network( bannersController.banners[index].imageLink!,fit: BoxFit.cover,),
+                        ""
+                    ),
+                    child: Container(
+                      color: Colors.black,
+                      child: Image.network(
+                        bannersController.banners[index].imageLink!,fit: BoxFit.contain,
+                      ),
+                    )
                   ),
                 );
                 // return Container(

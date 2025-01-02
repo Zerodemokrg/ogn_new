@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:ogn/main.dart';
 import 'package:ogn/ui/ui.dart';
 import 'package:ogn/ui/widgets/products/products_table.dart';
 
@@ -11,6 +12,7 @@ import 'package:flutter/material.dart';
 class MainPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    print("order type is: ${orderController.order.value.orderType}");
     return CustomScrollView(
       shrinkWrap: true,
       slivers: [

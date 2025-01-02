@@ -74,9 +74,7 @@ AddressItem _$AddressItemFromJson(Map<String, dynamic> json) => AddressItem(
       point: PointCoordinate.fromJson(json['point'] as Map<String, dynamic>),
       purpose_name: json['purpose_name'] as String,
       type: json['type'] as String,
-    )..addresses = (json['addresses'] as List<dynamic>)
-        .map((e) => AddressItem.fromJson(e as Map<String, dynamic>))
-        .toList();
+    );
 
 Map<String, dynamic> _$AddressItemToJson(AddressItem instance) =>
     <String, dynamic>{
@@ -88,7 +86,6 @@ Map<String, dynamic> _$AddressItemToJson(AddressItem instance) =>
       'point': instance.point,
       'purpose_name': instance.purpose_name,
       'type': instance.type,
-      'addresses': instance.addresses,
     };
 
 Menu _$MenuFromJson(Map<String, dynamic> json) => Menu(
@@ -285,7 +282,7 @@ Map<String, dynamic> _$GroupModifierToJson(GroupModifier instance) =>
       'childModifiers': instance.childModifiers,
     };
 
-BannerSite _$BannerFromJson(Map<String, dynamic> json) => BannerSite(
+BannerSite _$BannerSiteFromJson(Map<String, dynamic> json) => BannerSite(
       id: (json['id'] as num?)?.toInt(),
       scheduleId: (json['scheduleId'] as num).toInt(),
       indexSort: (json['indexSort'] as num?)?.toInt(),
@@ -299,7 +296,8 @@ BannerSite _$BannerFromJson(Map<String, dynamic> json) => BannerSite(
       videoLink: json['videoLink'] as String?,
     );
 
-Map<String, dynamic> _$BannerToJson(BannerSite instance) => <String, dynamic>{
+Map<String, dynamic> _$BannerSiteToJson(BannerSite instance) =>
+    <String, dynamic>{
       'id': instance.id,
       'scheduleId': instance.scheduleId,
       'indexSort': instance.indexSort,
@@ -489,6 +487,7 @@ Order _$OrderFromJson(Map<String, dynamic> json) => Order(
       comment: json['comment'] as String?,
       paymentType: json['paymentType'] as String?,
       sumPrice: (json['sumPrice'] as num).toInt(),
+      tableNumber: (json['tableNumber'] as num?)?.toInt(),
     )
       ..clientPhone = json['clientPhone'] as String?
       ..clientName = json['clientName'] as String?
@@ -502,6 +501,7 @@ Order _$OrderFromJson(Map<String, dynamic> json) => Order(
 Map<String, dynamic> _$OrderToJson(Order instance) => <String, dynamic>{
       'orderType': instance.orderType,
       'departmentId': instance.departmentId,
+      'tableNumber': instance.tableNumber,
       'coordinate': instance.coordinate,
       'orderAddress': instance.orderAddress,
       'promocodeId': instance.promocodeId,
@@ -569,4 +569,29 @@ Map<String, dynamic> _$RecommendationToJson(Recommendation instance) =>
       'typeRecommendation': instance.typeRecommendation,
       'guidProductId': instance.guidProductId,
       'guidRecommendationId': instance.guidRecommendationId,
+    };
+
+OrderStatusResponse _$OrderStatusResponseFromJson(Map<String, dynamic> json) =>
+    OrderStatusResponse(
+      orderStatus: json['orderStatus'] as String?,
+      orderNumber: json['orderNumber'] as String?,
+    );
+
+Map<String, dynamic> _$OrderStatusResponseToJson(
+        OrderStatusResponse instance) =>
+    <String, dynamic>{
+      'orderStatus': instance.orderStatus,
+      'orderNumber': instance.orderNumber,
+    };
+
+OrderStatusRequest _$OrderStatusRequestFromJson(Map<String, dynamic> json) =>
+    OrderStatusRequest(
+      paymentId: (json['paymentId'] as num).toInt(),
+      paymentTransactionId: json['paymentTransactionId'] as String?,
+    );
+
+Map<String, dynamic> _$OrderStatusRequestToJson(OrderStatusRequest instance) =>
+    <String, dynamic>{
+      'paymentId': instance.paymentId,
+      'paymentTransactionId': instance.paymentTransactionId,
     };

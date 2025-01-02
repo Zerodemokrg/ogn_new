@@ -10,7 +10,7 @@ class MenuController extends GetxController {
   var selectedCategoryGuid=''.obs;
   var isLoading = true.obs;
   var errorMessage = ''.obs;
-
+  var deliveriesProducts=["c7ae506d-cbee-46e9-a59f-69930ef526d4","ae3d69d9-47fc-4361-90fd-e7c98dcf85e2","4592308c-0d23-4b71-9880-999d88146bf9","e5d0a3df-b13b-47a9-b870-e7d64491725f","04963870-bcdf-46ef-94b7-985dd24639ab"].obs;
   @override
   void onInit() {
     super.onInit();
