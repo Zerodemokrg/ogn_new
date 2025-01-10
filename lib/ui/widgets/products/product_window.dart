@@ -672,295 +672,106 @@ class _ResponsiveDialogWidgetState extends State<ResponsiveDialogWidget> {
                 ],
               )
           ),
-        ):Container(
-            width: width,
-            height: height,
-            color: themData.scaffoldBackgroundColor,
-            padding: EdgeInsets.all(5.0),
-            child: Stack(
-              fit: StackFit.expand,
-              children: [
-                CustomScrollView(
-                  slivers: [
-                    SliverToBoxAdapter(
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        //mainAxisSize: MainAxisSize.min,
-                        children: [
-                          Container(
-                            width: double.infinity,
-                            height: height*0.5,
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(10),
-                              // border: Border.all(
-                              //   color: Colors.black, // Цвет рамки
-                              //   width: 2.0, // Ширина рамки
-                              // ),
-                            ),
-                            child: ClipRRect(
-                              borderRadius: BorderRadius.circular(10),
-                              child:widget.product.videoLinkPreview==""?Image.network(
-                                widget.product.imageLink,
-                                fit: BoxFit.fill,
-                                loadingBuilder: (context, child, loadingProgress) {
-                                  if (loadingProgress == null) {
-                                    // Изображение загружено, показываем его
-                                    return child;
-                                  }
-                                  // Показываем индикатор загрузки
-                                  return Center(
-                                    child: CircularProgressIndicator(),
-                                  );
-                                },
-                                errorBuilder: (context, error, stackTrace) {
-                                  // Если основное изображение не удалось загрузить, пробуем другое
-                                  return Image.network(
-                                    widget.product.imageLinkFromExternalSystem,
-                                    fit: BoxFit.fill,
-                                    loadingBuilder: (context, child, loadingProgress) {
-                                      if (loadingProgress == null) {
-                                        // Изображение из альтернативного источника загружено
-                                        return child;
-                                      }
-                                      // Показываем индикатор загрузки
-                                      return Center(
-                                        child: CircularProgressIndicator(),
-                                      );
-                                    },
-                                    errorBuilder: (context, error, stackTrace) {
-                                      // Если оба изображения не загрузились, показываем локальное
-                                      return Image.asset(
-                                        'assets/images/logo_for_dark.png',
-                                        width: 170,
-                                      );
-                                    },
-                                  );
-                                },
-                              ): YouTubeVideoPlayer(videoId: widget.product.videoLinkPreview),
-                            ),
-                          ),
-                          Container(
-                            margin: EdgeInsets.only(left: 10),
-                            child: Text(
-                              widget.product.name,
-                              style: TextStyle(fontSize: 28,),
-                              maxLines: 2,overflow: TextOverflow.ellipsis,
-                            ),
-                          ),
-                          SizedBox(height: 20),
-                          Container(
-                            margin: EdgeInsets.only(left: 10),
-                            child:   Text(
-                              widget.product.description,
-                              style: TextStyle(fontSize: 16,),
-                              maxLines: 2,overflow: TextOverflow.ellipsis,
-                            ),
-                          )
-
-
-                        ],
-                      ),
-                    ),
-                    if (widget.product.modifiers?.isNotEmpty==true)
+        ):Align(
+            alignment: Alignment.bottomCenter,
+            // width: _width,
+            // height: 100,
+            // color: themData.scaffoldBackgroundColor,
+            // padding: EdgeInsets.all(5.0),
+            child: Container(
+              width: _width,
+              height: raints.maxHeight*0.9,
+              color: themData.scaffoldBackgroundColor,
+              child: Stack(
+                fit: StackFit.expand,
+                children: [
+                  CustomScrollView(
+                    slivers: [
                       SliverToBoxAdapter(
-                        child: Container(
-                          margin: EdgeInsets.only(left: 10,top:10),
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Container(
-                                  alignment: Alignment.centerLeft,
-                                  child:  GradientText(
-                                    nameAdditional,
-                                    gradient:  LinearGradient(
-                                      colors: <Color>[
-                                        Color.fromRGBO(220, 53, 42, 1),  // rgba(220, 53, 42, 1)
-                                        Color.fromRGBO(255, 214, 10, 1), // rgba(255, 214, 10, 1)
-                                      ],
-                                      begin: Alignment.topLeft,
-                                      end: Alignment.bottomRight,
-                                    ),
-                                    sizeFont: 18,
-                                  )
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          //mainAxisSize: MainAxisSize.min,
+                          children: [
+                            Container(
+                              width: double.infinity,
+                              height: height*0.5,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(10),
+                                // border: Border.all(
+                                //   color: Colors.black, // Цвет рамки
+                                //   width: 2.0, // Ширина рамки
+                                // ),
                               ),
-                                SizedBox(
-                                height: 10,
+                              child: ClipRRect(
+                                borderRadius: BorderRadius.circular(10),
+                                child:                                    widget.product.videoLinkPreview==""?Image.network(
+                                  widget.product.imageLink,
+                                  fit: BoxFit.fill,
+                                  loadingBuilder: (context, child, loadingProgress) {
+                                    if (loadingProgress == null) {
+                                      // Изображение загружено, показываем его
+                                      return child;
+                                    }
+                                    // Показываем индикатор загрузки
+                                    return Center(
+                                      child: CircularProgressIndicator(),
+                                    );
+                                  },
+                                  errorBuilder: (context, error, stackTrace) {
+                                    // Если основное изображение не удалось загрузить, пробуем другое
+                                    return Image.network(
+                                      widget.product.imageLinkFromExternalSystem,
+                                      fit: BoxFit.fill,
+                                      loadingBuilder: (context, child, loadingProgress) {
+                                        if (loadingProgress == null) {
+                                          // Изображение из альтернативного источника загружено
+                                          return child;
+                                        }
+                                        // Показываем индикатор загрузки
+                                        return Center(
+                                          child: CircularProgressIndicator(),
+                                        );
+                                      },
+                                      errorBuilder: (context, error, stackTrace) {
+                                        // Если оба изображения не загрузились, показываем локальное
+                                        return Image.asset(
+                                          'assets/images/logo_for_dark.png',
+                                          width: 170,
+                                        );
+                                      },
+                                    );
+                                  },
+                                ): YouTubeVideoPlayer(videoId: widget.product.videoLinkPreview),
+
                               ),
-                              Container(
-                                  height:240,
-                                  child:
-                                  ScrollConfiguration(behavior: MyCustomScrollBehavior(),
-                                    child:  ListView(
-                                      scrollDirection: Axis.horizontal,
-                                      shrinkWrap: true,
-                                      children: [
-                                        for (var exmod in widget.product.modifiers!)
-                                          Container(
-                                            margin: EdgeInsets.only(right: 10),
-                                            width: 150,
-                                            height: 212,
-                                            child: GestureDetector(
-                                                onTap: (){
-                                                  if (position.positionItems.where((element) => element.modifierId==exmod.guid).length<1){
-                                                    setState(() {
-                                                      PositionItem pos=PositionItem(modifierId: exmod.guid,groupId:"",count: 1);
-                                                      position.positionItems.add(pos);
-                                                      calculatePositionSum();
-                                                    });
-                                                  } else {
-                                                    if (position.positionItems.where((element) => element.modifierId==exmod.guid).length>exmod.minAmount){
-                                                      removePositionItem(exmod.guid);
-                                                      calculatePositionSum();
-                                                    }
-                                                  }
-                                                },
-                                                child: Container(
-                                                  child: Column(
-                                                    children: [
-                                                      Stack(
-                                                        children: [
-                                                          Container(
-                                                            margin: EdgeInsets.only(top: 16),
-                                                            height: 120,
-                                                            width: 120,
+                            ),
+                            Container(
+                              margin: EdgeInsets.only(left: 10),
+                              child: Text(
+                                widget.product.name,
+                                style: TextStyle(fontSize: 28,),
+                                maxLines: 2,overflow: TextOverflow.ellipsis,
+                              ),
+                            ),
+                            SizedBox(height: 20),
+                            Container(
+                              margin: EdgeInsets.only(left: 10),
+                              child:   Text(
+                                widget.product.description,
+                                style: TextStyle(fontSize: 16,),
+                                maxLines: 2,overflow: TextOverflow.ellipsis,
+                              ),
+                            )
 
-                                                            child: ProductModifierWidget( mod: exmod.guid),
-                                                            // child: Image.memory(base64Decode(menu.products!.firstWhere((element) => element.guid==gr.guid).image!)),
-                                                          ),
-                                                          if(checkModifierInPositions(exmod.guid))Positioned(
-                                                              bottom: 0,
-                                                              right: 0,
-                                                              child: Container(
-                                                                width: 60,
-                                                                height: 60,
-                                                                child: Image.asset('assets/images/okfire.png'),
-                                                              )
-                                                          ),
-                                                        ],
-                                                      ),
-                                                      Text(menuController.getProductNameFilteredByLanguage(menuController.menu.value.products.firstWhere((element) => element.guidId==exmod.guid).guidId),maxLines: 1,textAlign: TextAlign.center,style: themData.textTheme.displaySmall,),
-                                                      Text("+${menuController.menu.value.products.firstWhere((element) => element.guidId==exmod.guid).sizePrice.first.price.currentPrice} ₸",textAlign: TextAlign.center,style: themData.textTheme.displaySmall,)
-                                                    ],
-                                                  ),
-                                                )
-                                            ),
-                                          ),
 
-                                      ],
-                                    ),)
-                              )
-                            ],
-                          ),
+                          ],
                         ),
                       ),
-                    if(recommendationController.recommendation.where((element)=>element.guidProductId==widget.product.parentGuid).isNotEmpty)
-                      SliverToBoxAdapter(
-                        child: Container(
-                          margin: EdgeInsets.only(left: 10,top:15),
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Container(
-                                  alignment: Alignment.centerLeft,
-                                  child:  GradientText(
-                                    "${nameRecommendation}",
-                                    gradient:  LinearGradient(
-                                      colors: <Color>[
-                                        Color.fromRGBO(220, 53, 42, 1),  // rgba(220, 53, 42, 1)
-                                        Color.fromRGBO(255, 214, 10, 1), // rgba(255, 214, 10, 1)
-                                      ],
-                                      begin: Alignment.topLeft,
-                                      end: Alignment.bottomRight,
-                                    ),
-                                    sizeFont: 18,
-                                  )
-                              ),
-                                SizedBox(
-                                height: 10,
-                              ),
-                              Container(
-                                  height:240,
-                                  child:
-                                  ScrollConfiguration(behavior: MyCustomScrollBehavior(),
-                                    child:  ListView(
-                                      scrollDirection: Axis.horizontal,
-                                      shrinkWrap: true,
-                                      // spacing: 22,
-                                      // runSpacing: 30,
-                                      // alignment: WrapAlignment.center,
-                                      children: [
-                                        for (var rec in recommendationController.recommendation)
-                                          Container(
-                                            margin: EdgeInsets.only(right: 10),
-                                            width: 150,
-                                            height: 212,
-                                            child: GestureDetector(
-                                                onTap: (){
-                                                  if (posRecs.contains(rec.guidRecommendationId)){
-                                                    setState(() {
-                                                      posRecs.remove(rec.guidRecommendationId);
-                                                    });
-                                                  } else {
-                                                    setState(() {
-                                                      posRecs.add(rec.guidRecommendationId);
-                                                    });
-                                                  }
-                                                },
-                                                child: Container(
-                                                  // decoration: BoxDecoration(
-                                                  //   //Color.fromRGBO(240, 240, 240, 1),
-                                                  //   shape: BoxShape.rectangle,
-                                                  //   border: Border.all(width: posRecs.contains(rec.guidRecommendationId)?3:0,
-                                                  //       color: posRecs.contains(rec.guidRecommendationId)?greenThemeColor:Colors.transparent),
-                                                  //   borderRadius: BorderRadius.circular(16),
-                                                  //   //  image: MENU.products!.firstWhere((element) => element.guid==mod.guid).image !=null && MENU.products!.firstWhere((element) => element.guid==mod.guid).image !=''?DecorationImage(image: MemoryImage(base64Decode(MENU.products!.firstWhere((element) => element.guid==mod.guid).image!)),fit: BoxFit.contain):DecorationImage(image: NetworkImage(MENU.products!.firstWhere((element) => element.guid==mod.guid).imageLink),fit: BoxFit.contain),
-                                                  // ),
-                                                  child: Column(
-                                                    children: [
-                                                      Stack(
-                                                        children: [
-                                                          Container(
-                                                            margin: EdgeInsets.only(top: 16),
-                                                            height: 120,
-                                                            width: 120,
-
-                                                            child: ProductModifierWidget( mod: rec.guidRecommendationId),
-                                                            // child: Image.memory(base64Decode(menu.products!.firstWhere((element) => element.guid==gr.guid).image!)),
-                                                          ),
-                                                          if(posRecs.contains(rec.guidRecommendationId))Positioned(
-                                                              bottom: 0,
-                                                              right: 0,
-                                                              child: Container(
-                                                                width: 60,
-                                                                height: 60,
-                                                                child: Image.asset('assets/images/okfire.png'),
-                                                              )
-                                                          ),
-                                                        ],
-                                                      ),
-                                                      Text(menuController.getProductNameFilteredByLanguage(menuController.menu.value.products.firstWhere((element) => element.guidId==rec.guidRecommendationId).guidId),maxLines: 1,textAlign: TextAlign.center,style: themData.textTheme.displaySmall,),
-                                                      Text("+${menuController.menu.value.products.firstWhere((element) => element.guidId==rec.guidRecommendationId).sizePrice.first.price.currentPrice} ₸",textAlign: TextAlign.center,style: themData.textTheme.displaySmall,)
-                                                    ],
-                                                  ),
-                                                )
-                                            ),
-                                          ),
-
-                                      ],
-                                    ),)
-                              )
-                            ],
-                          ),
-                        ),
-                      ),
-                    if (widget.product.groupModifier?.isNotEmpty==true)
-                      for(var grmod in widget.product.groupModifier!)
+                      if (widget.product.modifiers?.isNotEmpty==true)
                         SliverToBoxAdapter(
                           child: Container(
-                            margin: EdgeInsets.only(left: 24),
+                            margin: EdgeInsets.only(left: 10,top:10),
                             child: Column(
                               mainAxisAlignment: MainAxisAlignment.start,
                               crossAxisAlignment: CrossAxisAlignment.start,
@@ -968,7 +779,7 @@ class _ResponsiveDialogWidgetState extends State<ResponsiveDialogWidget> {
                                 Container(
                                     alignment: Alignment.centerLeft,
                                     child:  GradientText(
-                                      menuController.getGroupNameFilteredByLanguage(grmod.guid),
+                                      nameAdditional,
                                       gradient:  LinearGradient(
                                         colors: <Color>[
                                           Color.fromRGBO(220, 53, 42, 1),  // rgba(220, 53, 42, 1)
@@ -980,11 +791,103 @@ class _ResponsiveDialogWidgetState extends State<ResponsiveDialogWidget> {
                                       sizeFont: 18,
                                     )
                                 ),
-                                  SizedBox(
+                                SizedBox(
                                   height: 10,
                                 ),
                                 Container(
+                                    height:240,
+                                    child:
+                                    ScrollConfiguration(behavior: MyCustomScrollBehavior(),
+                                      child:  ListView(
+                                        scrollDirection: Axis.horizontal,
+                                        shrinkWrap: true,
+                                        children: [
+                                          for (var exmod in widget.product.modifiers!)
+                                            Container(
+                                              margin: EdgeInsets.only(right: 10),
+                                              width: 150,
+                                              height: 212,
+                                              child: GestureDetector(
+                                                  onTap: (){
+                                                    if (position.positionItems.where((element) => element.modifierId==exmod.guid).length<1){
+                                                      setState(() {
+                                                        PositionItem pos=PositionItem(modifierId: exmod.guid,groupId:"",count: 1);
+                                                        position.positionItems.add(pos);
+                                                        calculatePositionSum();
+                                                      });
+                                                    } else {
+                                                      if (position.positionItems.where((element) => element.modifierId==exmod.guid).length>exmod.minAmount){
+                                                        removePositionItem(exmod.guid);
+                                                        calculatePositionSum();
+                                                      }
+                                                    }
+                                                  },
+                                                  child: Container(
+                                                    child: Column(
+                                                      children: [
+                                                        Stack(
+                                                          children: [
+                                                            Container(
+                                                              margin: EdgeInsets.only(top: 16),
+                                                              height: 120,
+                                                              width: 120,
+
+                                                              child: ProductModifierWidget( mod: exmod.guid),
+                                                              // child: Image.memory(base64Decode(menu.products!.firstWhere((element) => element.guid==gr.guid).image!)),
+                                                            ),
+                                                            if(checkModifierInPositions(exmod.guid))Positioned(
+                                                                bottom: 0,
+                                                                right: 0,
+                                                                child: Container(
+                                                                  width: 60,
+                                                                  height: 60,
+                                                                  child: Image.asset('assets/images/okfire.png'),
+                                                                )
+                                                            ),
+                                                          ],
+                                                        ),
+                                                        Text(menuController.getProductNameFilteredByLanguage(menuController.menu.value.products.firstWhere((element) => element.guidId==exmod.guid).guidId),maxLines: 1,textAlign: TextAlign.center,style: themData.textTheme.displaySmall,),
+                                                        Text("+${menuController.menu.value.products.firstWhere((element) => element.guidId==exmod.guid).sizePrice.first.price.currentPrice} ₸",textAlign: TextAlign.center,style: themData.textTheme.displaySmall,)
+                                                      ],
+                                                    ),
+                                                  )
+                                              ),
+                                            ),
+
+                                        ],
+                                      ),)
+                                )
+                              ],
+                            ),
+                          ),
+                        ),
+                      if(recommendationController.recommendation.where((element)=>element.guidProductId==widget.product.parentGuid).isNotEmpty)
+                        SliverToBoxAdapter(
+                          child: Container(
+                            margin: EdgeInsets.only(left: 10,top:15),
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Container(
                                     alignment: Alignment.centerLeft,
+                                    child:  GradientText(
+                                      "${nameRecommendation}",
+                                      gradient:  LinearGradient(
+                                        colors: <Color>[
+                                          Color.fromRGBO(220, 53, 42, 1),  // rgba(220, 53, 42, 1)
+                                          Color.fromRGBO(255, 214, 10, 1), // rgba(255, 214, 10, 1)
+                                        ],
+                                        begin: Alignment.topLeft,
+                                        end: Alignment.bottomRight,
+                                      ),
+                                      sizeFont: 18,
+                                    )
+                                ),
+                                SizedBox(
+                                  height: 10,
+                                ),
+                                Container(
                                     height:240,
                                     child:
                                     ScrollConfiguration(behavior: MyCustomScrollBehavior(),
@@ -995,30 +898,21 @@ class _ResponsiveDialogWidgetState extends State<ResponsiveDialogWidget> {
                                         // runSpacing: 30,
                                         // alignment: WrapAlignment.center,
                                         children: [
-                                          for (var mod in grmod.childModifiers)
+                                          for (var rec in recommendationController.recommendation)
                                             Container(
                                               margin: EdgeInsets.only(right: 10),
                                               width: 150,
                                               height: 212,
                                               child: GestureDetector(
                                                   onTap: (){
-                                                    if(position.positionItems.where((element) => element.modifierId==mod.guid).length==0){
-                                                      if (position.positionItems.where((element) => element.groupId==grmod.guid).length>=grmod.maxAmount) {
-                                                        removePositionItem(position.positionItems.firstWhere((element) => element.groupId==grmod.guid).modifierId!);
-                                                      }
-                                                      if (position.positionItems.where((element) => element.groupId==grmod.guid).length<grmod.maxAmount){
-                                                        setState(() {
-                                                          PositionItem pos=PositionItem(modifierId: mod.guid,groupId: grmod.guid,count: 1);
-                                                          position.positionItems.add(pos);
-                                                          calculatePositionSum();
-                                                        });
-                                                      }
+                                                    if (posRecs.contains(rec.guidRecommendationId)){
+                                                      setState(() {
+                                                        posRecs.remove(rec.guidRecommendationId);
+                                                      });
                                                     } else {
-                                                      if (canDeletedModifier(mod.guid)==true){
-                                                        removePositionItem(mod.guid);
-                                                        calculatePositionSum();
-                                                      }
-
+                                                      setState(() {
+                                                        posRecs.add(rec.guidRecommendationId);
+                                                      });
                                                     }
                                                   },
                                                   child: Container(
@@ -1039,10 +933,10 @@ class _ResponsiveDialogWidgetState extends State<ResponsiveDialogWidget> {
                                                               height: 120,
                                                               width: 120,
 
-                                                              child: ProductModifierWidget( mod: mod.guid),
+                                                              child: ProductModifierWidget( mod: rec.guidRecommendationId),
                                                               // child: Image.memory(base64Decode(menu.products!.firstWhere((element) => element.guid==gr.guid).image!)),
                                                             ),
-                                                            if(checkModifierInPositions(mod.guid))Positioned(
+                                                            if(posRecs.contains(rec.guidRecommendationId))Positioned(
                                                                 bottom: 0,
                                                                 right: 0,
                                                                 child: Container(
@@ -1053,8 +947,8 @@ class _ResponsiveDialogWidgetState extends State<ResponsiveDialogWidget> {
                                                             ),
                                                           ],
                                                         ),
-                                                        Text(menuController.getProductNameFilteredByLanguage(mod.guid),maxLines: 1,textAlign: TextAlign.center,style: themData.textTheme.displaySmall,),
-                                                        Text("+${menuController.menu.value.products.firstWhere((element) => element.guidId==mod.guid).sizePrice.first.price.currentPrice} ₸",textAlign: TextAlign.center,style: themData.textTheme.displaySmall,)
+                                                        Text(menuController.getProductNameFilteredByLanguage(menuController.menu.value.products.firstWhere((element) => element.guidId==rec.guidRecommendationId).guidId),maxLines: 1,textAlign: TextAlign.center,style: themData.textTheme.displaySmall,),
+                                                        Text("+${menuController.menu.value.products.firstWhere((element) => element.guidId==rec.guidRecommendationId).sizePrice.first.price.currentPrice} ₸",textAlign: TextAlign.center,style: themData.textTheme.displaySmall,)
                                                       ],
                                                     ),
                                                   )
@@ -1063,142 +957,257 @@ class _ResponsiveDialogWidgetState extends State<ResponsiveDialogWidget> {
 
                                         ],
                                       ),)
-                                ),
-                                  SizedBox(
-                                  height: 20,
-                                ),
+                                )
                               ],
                             ),
                           ),
                         ),
-                  ],
-                ),
-                Align(
-                  alignment: Alignment.bottomCenter,
-                  child:  Container(
-                      height: 60,
-                      child: Row(
-                        children: [
-                          Expanded(child: Container(
-                            margin: EdgeInsets.only(right: 15),
-                            alignment: Alignment.center,
-                            child: Row(
-                              children: [
-                                Expanded(
-                                  child: Container(
-                                    height: 70,
-                                    width: 70,
-                                    alignment: Alignment.center,
-                                    child: GestureDetector(
-
-                                      child: Container(
-                                        height: 50,
-                                        width: 50,
-
-
-                                        child: Icon(Icons.remove,color:Colors.white),
-                                      ),
-                                      onTap: () {
-                                        setState(() {
-                                          if (position.count!>1){
-                                            position.count=position.count!-1;
-
-                                            calculatePositionSum();
-                                          }
-                                        });
-                                        // setState(() {
-                                        //   if (position.count!>1){
-                                        //     position.count=position.count!-1;
-                                        //     calculatePositionSum();
-                                        //   }
-                                        // });
-                                      },
-                                    ),
-                                  ),
-                                ),
-                                Expanded(
-                                  child: Container(
-                                      alignment: Alignment.center,
-                                      child: Text("${position.count}",style: themData.textTheme.labelLarge)
-                                  ),),
-                                Expanded(
-                                  child: Container(
-                                    height: 60,
-                                    width: 70,
-                                    alignment: Alignment.center,
-                                    child: GestureDetector(
-                                      child: Container(
-                                        height: 32,
-                                        width: 32,
-                                        decoration: BoxDecoration(
-                                          shape: BoxShape.circle,
-                                          gradient: LinearGradient(
-                                            colors: [
-                                              Color.fromRGBO(220, 53, 42, 1),  // Красный цвет
-                                              Color.fromRGBO(255, 214, 10, 1), // Желтый цвет
-                                            ],
-                                            begin: Alignment.topLeft,
-                                            end: Alignment.bottomRight,
-                                          ),
-                                        ),
-                                        child: Icon(Icons.add),
-                                      ),
-                                      onTap: () {
-                                        setState(() {
-                                          position.count = position.count! + 1;
-                                          calculatePositionSum();
-                                        });
-                                      },
-                                    ),
-                                  ),
-                                ),
-                                //Expanded(child: child)
-                              ],
-                            ),
-                          )),
-                          Expanded(
-                            flex: 2,
-                            child:  ElevatedButton(
-                              onPressed: () {
-                                setState(() {
-                                  orderController.order.value.positions.add(position);
-                                  for (var p in posRecs){
-                                    setState(() {
-                                      Position pos=Position(productId: p,count: 1,positionItems: [],positionPrice: menuController.menu.value.products.firstWhere((element) => element.guidId==p).sizePrice.first.price.currentPrice.toInt());
-                                      orderController.order.value.positions.add(pos);
-                                    });
-                                  }
-                                  orderController.changeOrder();
-                                  // if (menuConfigs.where((element) => element.guidIdProduct==position.productId).length>0){
-                                  //   if (order.positions.where((element) => element.productId==menuConfigs.firstWhere((element) => element.guidIdProduct==position.productId).additionalDishesId).length>0){
-                                  //     order.positions.firstWhere((element) => element.productId==menuConfigs.firstWhere((element) => element.guidIdProduct==position.productId).additionalDishesId).count=(order.positions.firstWhere((element) => element.productId==menuConfigs.firstWhere((element) => element.guidIdProduct==position.productId).additionalDishesId).count!+menuConfigs.firstWhere((element) => element.guidIdProduct==position.productId).countDishes!*position.count!);
-                                  //     order.positions.firstWhere((element) => element.productId==menuConfigs.firstWhere((element) => element.guidIdProduct==position.productId).additionalDishesId).positionPrice=order.positions.firstWhere((element) => element.productId==menuConfigs.firstWhere((element) => element.guidIdProduct==position.productId).additionalDishesId).positionPrice!+MENU.products!.firstWhere((element) => element.guid==menuConfigs.firstWhere((element) => element.guidIdProduct==position.productId).additionalDishesId).price*menuConfigs.firstWhere((element) => element.guidIdProduct==position.productId).countDishes!*position.count!;
-                                  //   } else {
-                                  //     Position dish=Position(productId: menuConfigs.firstWhere((element) => element.guidIdProduct==position.productId).additionalDishesId,positionItems: [],positionPrice: MENU.products!.firstWhere((element) => element.guid==menuConfigs.firstWhere((element) => element.guidIdProduct==position.productId).additionalDishesId).price*(menuConfigs.firstWhere((element) => element.guidIdProduct==position.productId).countDishes!*position.count!),count: menuConfigs.firstWhere((element) => element.guidIdProduct==position.productId).countDishes!*position.count!);
-                                  //     order.positions.add(dish);
-                                  //   }
-                                  // }
-                                });
-                                // for (var p in posRecs){
-                                //   setState(() {
-                                //     Position pos=Position(productId: p,count: 1,positionItems: [],positionPrice: MENU.products!.firstWhere((element) => element.guid==p).price);
-                                //     order.positions.add(pos);
-                                //   });
-                                // }
-                                Navigator.of(context).pop();
-                              },
-                              child: Row(
+                      if (widget.product.groupModifier?.isNotEmpty==true)
+                        for(var grmod in widget.product.groupModifier!)
+                          SliverToBoxAdapter(
+                            child: Container(
+                              margin: EdgeInsets.only(left: 24),
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  Expanded(child: Text(nameAddToCart)),
-                                  Expanded(child: Container(alignment:Alignment.centerRight,child: Text('${position.positionPrice} ₸'),))
+                                  Container(
+                                      alignment: Alignment.centerLeft,
+                                      child:  GradientText(
+                                        menuController.getGroupNameFilteredByLanguage(grmod.guid),
+                                        gradient:  LinearGradient(
+                                          colors: <Color>[
+                                            Color.fromRGBO(220, 53, 42, 1),  // rgba(220, 53, 42, 1)
+                                            Color.fromRGBO(255, 214, 10, 1), // rgba(255, 214, 10, 1)
+                                          ],
+                                          begin: Alignment.topLeft,
+                                          end: Alignment.bottomRight,
+                                        ),
+                                        sizeFont: 18,
+                                      )
+                                  ),
+                                  SizedBox(
+                                    height: 10,
+                                  ),
+                                  Container(
+                                      alignment: Alignment.centerLeft,
+                                      height:240,
+                                      child:
+                                      ScrollConfiguration(behavior: MyCustomScrollBehavior(),
+                                        child:  ListView(
+                                          scrollDirection: Axis.horizontal,
+                                          shrinkWrap: true,
+                                          // spacing: 22,
+                                          // runSpacing: 30,
+                                          // alignment: WrapAlignment.center,
+                                          children: [
+                                            for (var mod in grmod.childModifiers)
+                                              Container(
+                                                margin: EdgeInsets.only(right: 10),
+                                                width: 150,
+                                                height: 212,
+                                                child: GestureDetector(
+                                                    onTap: (){
+                                                      if(position.positionItems.where((element) => element.modifierId==mod.guid).length==0){
+                                                        if (position.positionItems.where((element) => element.groupId==grmod.guid).length>=grmod.maxAmount) {
+                                                          removePositionItem(position.positionItems.firstWhere((element) => element.groupId==grmod.guid).modifierId!);
+                                                        }
+                                                        if (position.positionItems.where((element) => element.groupId==grmod.guid).length<grmod.maxAmount){
+                                                          setState(() {
+                                                            PositionItem pos=PositionItem(modifierId: mod.guid,groupId: grmod.guid,count: 1);
+                                                            position.positionItems.add(pos);
+                                                            calculatePositionSum();
+                                                          });
+                                                        }
+                                                      } else {
+                                                        if (canDeletedModifier(mod.guid)==true){
+                                                          removePositionItem(mod.guid);
+                                                          calculatePositionSum();
+                                                        }
+
+                                                      }
+                                                    },
+                                                    child: Container(
+                                                      // decoration: BoxDecoration(
+                                                      //   //Color.fromRGBO(240, 240, 240, 1),
+                                                      //   shape: BoxShape.rectangle,
+                                                      //   border: Border.all(width: posRecs.contains(rec.guidRecommendationId)?3:0,
+                                                      //       color: posRecs.contains(rec.guidRecommendationId)?greenThemeColor:Colors.transparent),
+                                                      //   borderRadius: BorderRadius.circular(16),
+                                                      //   //  image: MENU.products!.firstWhere((element) => element.guid==mod.guid).image !=null && MENU.products!.firstWhere((element) => element.guid==mod.guid).image !=''?DecorationImage(image: MemoryImage(base64Decode(MENU.products!.firstWhere((element) => element.guid==mod.guid).image!)),fit: BoxFit.contain):DecorationImage(image: NetworkImage(MENU.products!.firstWhere((element) => element.guid==mod.guid).imageLink),fit: BoxFit.contain),
+                                                      // ),
+                                                      child: Column(
+                                                        children: [
+                                                          Stack(
+                                                            children: [
+                                                              Container(
+                                                                margin: EdgeInsets.only(top: 16),
+                                                                height: 120,
+                                                                width: 120,
+
+                                                                child: ProductModifierWidget( mod: mod.guid),
+                                                                // child: Image.memory(base64Decode(menu.products!.firstWhere((element) => element.guid==gr.guid).image!)),
+                                                              ),
+                                                              if(checkModifierInPositions(mod.guid))Positioned(
+                                                                  bottom: 0,
+                                                                  right: 0,
+                                                                  child: Container(
+                                                                    width: 60,
+                                                                    height: 60,
+                                                                    child: Image.asset('assets/images/okfire.png'),
+                                                                  )
+                                                              ),
+                                                            ],
+                                                          ),
+                                                          Text(menuController.getProductNameFilteredByLanguage(mod.guid),maxLines: 1,textAlign: TextAlign.center,style: themData.textTheme.displaySmall,),
+                                                          Text("+${menuController.menu.value.products.firstWhere((element) => element.guidId==mod.guid).sizePrice.first.price.currentPrice} ₸",textAlign: TextAlign.center,style: themData.textTheme.displaySmall,)
+                                                        ],
+                                                      ),
+                                                    )
+                                                ),
+                                              ),
+
+                                          ],
+                                        ),)
+                                  ),
+                                  SizedBox(
+                                    height: 20,
+                                  ),
                                 ],
                               ),
-                            ),)
-                        ],
-                      )
+                            ),
+                          ),
+                    ],
                   ),
-                )
-              ],
+                  Align(
+                    alignment: Alignment.bottomCenter,
+                    child:  Container(
+                        height: 60,
+                        child: Row(
+                          children: [
+                            Expanded(child: Container(
+                              margin: EdgeInsets.only(right: 15),
+                              alignment: Alignment.center,
+                              child: Row(
+                                children: [
+                                  Expanded(
+                                    child: Container(
+                                      height: 70,
+                                      width: 70,
+                                      alignment: Alignment.center,
+                                      child: GestureDetector(
+
+                                        child: Container(
+                                          height: 50,
+                                          width: 50,
+
+
+                                          child: Icon(Icons.remove,color:Colors.white),
+                                        ),
+                                        onTap: () {
+                                          setState(() {
+                                            if (position.count!>1){
+                                              position.count=position.count!-1;
+
+                                              calculatePositionSum();
+                                            }
+                                          });
+                                          // setState(() {
+                                          //   if (position.count!>1){
+                                          //     position.count=position.count!-1;
+                                          //     calculatePositionSum();
+                                          //   }
+                                          // });
+                                        },
+                                      ),
+                                    ),
+                                  ),
+                                  Expanded(
+                                    child: Container(
+                                        alignment: Alignment.center,
+                                        child: Text("${position.count}",style: themData.textTheme.labelLarge)
+                                    ),),
+                                  Expanded(
+                                    child: Container(
+                                      height: 60,
+                                      width: 70,
+                                      alignment: Alignment.center,
+                                      child: GestureDetector(
+                                        child: Container(
+                                          height: 32,
+                                          width: 32,
+                                          decoration: BoxDecoration(
+                                            shape: BoxShape.circle,
+                                            gradient: LinearGradient(
+                                              colors: [
+                                                Color.fromRGBO(220, 53, 42, 1),  // Красный цвет
+                                                Color.fromRGBO(255, 214, 10, 1), // Желтый цвет
+                                              ],
+                                              begin: Alignment.topLeft,
+                                              end: Alignment.bottomRight,
+                                            ),
+                                          ),
+                                          child: Icon(Icons.add),
+                                        ),
+                                        onTap: () {
+                                          setState(() {
+                                            position.count = position.count! + 1;
+                                            calculatePositionSum();
+                                          });
+                                        },
+                                      ),
+                                    ),
+                                  ),
+                                  //Expanded(child: child)
+                                ],
+                              ),
+                            )),
+                            Expanded(
+                              flex: 2,
+                              child:  ElevatedButton(
+                                onPressed: () {
+                                  setState(() {
+                                    orderController.order.value.positions.add(position);
+                                    for (var p in posRecs){
+                                      setState(() {
+                                        Position pos=Position(productId: p,count: 1,positionItems: [],positionPrice: menuController.menu.value.products.firstWhere((element) => element.guidId==p).sizePrice.first.price.currentPrice.toInt());
+                                        orderController.order.value.positions.add(pos);
+                                      });
+                                    }
+                                    orderController.changeOrder();
+                                    // if (menuConfigs.where((element) => element.guidIdProduct==position.productId).length>0){
+                                    //   if (order.positions.where((element) => element.productId==menuConfigs.firstWhere((element) => element.guidIdProduct==position.productId).additionalDishesId).length>0){
+                                    //     order.positions.firstWhere((element) => element.productId==menuConfigs.firstWhere((element) => element.guidIdProduct==position.productId).additionalDishesId).count=(order.positions.firstWhere((element) => element.productId==menuConfigs.firstWhere((element) => element.guidIdProduct==position.productId).additionalDishesId).count!+menuConfigs.firstWhere((element) => element.guidIdProduct==position.productId).countDishes!*position.count!);
+                                    //     order.positions.firstWhere((element) => element.productId==menuConfigs.firstWhere((element) => element.guidIdProduct==position.productId).additionalDishesId).positionPrice=order.positions.firstWhere((element) => element.productId==menuConfigs.firstWhere((element) => element.guidIdProduct==position.productId).additionalDishesId).positionPrice!+MENU.products!.firstWhere((element) => element.guid==menuConfigs.firstWhere((element) => element.guidIdProduct==position.productId).additionalDishesId).price*menuConfigs.firstWhere((element) => element.guidIdProduct==position.productId).countDishes!*position.count!;
+                                    //   } else {
+                                    //     Position dish=Position(productId: menuConfigs.firstWhere((element) => element.guidIdProduct==position.productId).additionalDishesId,positionItems: [],positionPrice: MENU.products!.firstWhere((element) => element.guid==menuConfigs.firstWhere((element) => element.guidIdProduct==position.productId).additionalDishesId).price*(menuConfigs.firstWhere((element) => element.guidIdProduct==position.productId).countDishes!*position.count!),count: menuConfigs.firstWhere((element) => element.guidIdProduct==position.productId).countDishes!*position.count!);
+                                    //     order.positions.add(dish);
+                                    //   }
+                                    // }
+                                  });
+                                  // for (var p in posRecs){
+                                  //   setState(() {
+                                  //     Position pos=Position(productId: p,count: 1,positionItems: [],positionPrice: MENU.products!.firstWhere((element) => element.guid==p).price);
+                                  //     order.positions.add(pos);
+                                  //   });
+                                  // }
+
+                                  Navigator.of(context).pop();
+
+                                },
+                                child: Row(
+                                  children: [
+                                    Expanded(child: Text(nameAddToCart)),
+                                    Expanded(child: Container(alignment:Alignment.centerRight,child: Text('${position.positionPrice} ₸'),))
+                                  ],
+                                ),
+                              ),)
+                          ],
+                        )
+                    ),
+                  )
+                ],
+              ),
             )
         );
       },

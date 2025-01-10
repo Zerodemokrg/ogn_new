@@ -27,7 +27,7 @@ class _ProductContainerState extends State<ProductContainer>{
     return LayoutBuilder(builder: (context,constraints){
       double _width= MediaQuery.of(context).size.width ;
       return Container(
-        height: 425,
+      //  height: 425,
        // color: themData.scaffoldBackgroundColor,
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,

@@ -183,13 +183,13 @@ class _BasketPageState extends State<BasketPage>{
                           ],
                         ),
                       ),
-                      if(_width>1030 )Container(
+                      if(_width>1030)Container(
                         margin: EdgeInsets.only( left: 24), // Отступы слева и справа
                         height: 650, // Высота линии
                         width: 0.3, // Толщина линии
                         color: Color.fromRGBO(51, 51, 51, 1), // Цвет линии
                       ),
-                      Container(
+                      if(orderController.order.value.orderType!='inside')Container(
                         margin: EdgeInsets.only(top: _width>770?0:15),
                         alignment: Alignment.center,
                         width: 400,
@@ -249,7 +249,6 @@ class _BasketPageState extends State<BasketPage>{
                             ),
                             Container(
                               width: 500,
-
                               child: PaymentMethodSelector(),
                             ),
                             const SizedBox(

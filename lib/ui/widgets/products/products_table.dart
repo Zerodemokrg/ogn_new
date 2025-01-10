@@ -29,12 +29,14 @@ class ProductTable extends StatelessWidget {
         var products = menuController.menu.value.products
             .where((element) => element.parentGuid == menuController.selectedCategoryGuid.value)
             .toList();
-        return GridView.builder(
+        return _width>770?GridView.builder(
           shrinkWrap: true,
           physics: const NeverScrollableScrollPhysics(), // Отключение прокрутки
+
           gridDelegate:  SliverGridDelegateWithMaxCrossAxisExtent(
-            maxCrossAxisExtent: _width>770?330:450,
+            maxCrossAxisExtent: 330,
             crossAxisSpacing: 64,
+            mainAxisSpacing: 20,
             childAspectRatio: 3/5,
           ),
           itemCount: products.length,
@@ -46,7 +48,22 @@ class ProductTable extends StatelessWidget {
               child:ProductContainer(product: products[index]),
             );
           },
-        );
+        ):ListView.builder(
+            shrinkWrap: true,
+            physics: const NeverScrollableScrollPhysics(),
+            scrollDirection: Axis.vertical,
+            itemCount: products.length,
+                        itemBuilder: (context,index){
+              return GestureDetector(
+                onTap: (){
+                  showResponsiveDialog(context,products[index]);
+                },
+                child:Container(
+                  margin: EdgeInsets.only(bottom: 30),
+                  child: ProductContainer(product: products[index]),
+                ),
+              );
+            });
       }),
     );
   }
@@ -54,41 +71,40 @@ class ProductTable extends StatelessWidget {
 
 
 
-// class ProductTable extends StatefulWidget{
+// class ProductTable extends StatelessWidget {
 //   @override
-//   _ProductTableState createState()=>new _ProductTableState();
-// }
-//
-// class _ProductTableState extends State<ProductTable>{
-//   bool isLoaded=true;
-//   getData()async{
-//
-//   }
-//   @override
-//   void initState() {
-//     // TODO: implement initState
-//     super.initState();
-//     getData();
-//   }
-//
-//   @override
-//   Widget build(BuildContext context){
+//   Widget build(BuildContext context) {
+//     double _width= MediaQuery.of(context).size.width ;
 //     return Container(
 //       width: 1280,
-//       margin: EdgeInsets.only(right: 60,left: 60),
-//       child:  GridView.builder(
+//       margin: EdgeInsets.only(right: 60, left: 60,top: 10),
+//       child: Obx(() {
+//         // Получаем список продуктов для текущей выбранной категории
+//         var products = menuController.menu.value.products
+//             .where((element) => element.parentGuid == menuController.selectedCategoryGuid.value)
+//             .toList();
+//         return GridView.builder(
 //           shrinkWrap: true,
-//           physics: NeverScrollableScrollPhysics(), // Отключение прокрутки
-//           gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
-//             maxCrossAxisExtent: 300,
+//           physics: const NeverScrollableScrollPhysics(), // Отключение прокрутки
+//           gridDelegate:  SliverGridDelegateWithMaxCrossAxisExtent(
+//             maxCrossAxisExtent: _width>770?330:450,
 //             crossAxisSpacing: 64,
+//             childAspectRatio: 3/5,
 //           ),
-//           itemCount: menuController.menu.value.products.where((elenent)=>elenent.parentGuid==menuController.selectedCategoryGuid.value).toList().length,
-//           itemBuilder: (context,index){
-//             return ProductContainer(product: menuController.menu.value.products.where((elenent)=>elenent.parentGuid==menuController.selectedCategoryGuid.value).toList()[index]);
-//             // return menuController.menu.value.products.where((elenent)=>elenent.parentGuid==menuController.selectedCategoryGuid.value)
-//           }
-//       ),
+//           itemCount: products.length,
+//           itemBuilder: (context, index) {
+//             return GestureDetector(
+//               onTap: (){
+//                 showResponsiveDialog(context,products[index]);
+//               },
+//               child:ProductContainer(product: products[index]),
+//             );
+//           },
+//         );
+//       }),
 //     );
 //   }
 // }
+//
+//
+//

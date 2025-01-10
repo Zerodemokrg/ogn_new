@@ -7,6 +7,7 @@ import 'package:ogn/ui/pages/department_page.dart';
 import 'package:ogn/ui/pages/loading_page.dart';
 import 'package:ogn/ui/pages/loading_screen.dart';
 import 'package:ogn/ui/pages/main_page.dart';
+import 'package:ogn/ui/pages/new_qr_menu_page.dart';
 import 'package:ogn/ui/themes/defaultTheme.dart';
 import 'package:url_strategy/url_strategy.dart';
 import 'controllers/controllers.dart' as myControllers;
@@ -102,8 +103,8 @@ class MyApp extends StatelessWidget {
             print("ordertype is ${orderController.order.value.orderType}");
             // Возвращаем целевую страницу
             return MainScaffold(
-              body: MainPage(),
-              title: 'mainPage',
+              body: NewQrMenuPage(),//MainPage(),
+              title: 'qrPage',
               showAppBar: true,
             );
           },
@@ -168,7 +169,7 @@ class MainScaffold extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // double screenWidth = MediaQuery.of(context).size.width;
+    double screenWidth = MediaQuery.of(context).size.width;
     // print(screenWidth);
     return Scaffold(
       body: FutureBuilder(
@@ -206,7 +207,7 @@ class MainScaffold extends StatelessWidget {
                   ),
                   Center(child: Container(
                     alignment: Alignment.topCenter,
-                    margin: EdgeInsets.only(left: 15,right: 15),
+                  //  margin: EdgeInsets.only(left: 15,right: 15),
                     constraints: BoxConstraints(maxWidth: 1280),
                     child: body ,
                   ),)
@@ -216,43 +217,35 @@ class MainScaffold extends StatelessWidget {
             }
 
           }
-      )
+      ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+      floatingActionButton:Obx((){return (screenWidth <= 770 &&
+          orderController.order.value.sumPrice > 0 &&
+          (Get.currentRoute == '/' ||
+              Get.currentRoute.startsWith('/qr') ||
+              Get.currentRoute == '/main'))?  Container(
+        margin:  EdgeInsets.all(10),
+        height: 56,
+        child: ElevatedButton(
+          onPressed: () {
+            Get.toNamed('/basket'); // Переход на экран корзины
+          },
+          child: Row(
+            children: [
+              Expanded(
+                child: Text(
+                  "Корзина | ${orderController.order.value.sumPrice} ₸",
+                  textAlign: TextAlign.center,
+                  style:  TextStyle(fontSize: 18),
+                  maxLines: 1,
+                ),
+              ),
+            ],
+          ),
+        ),
+      ):Container(child:Text(orderController.test.toString()));}),
     );
   }
 }
 
 
-// class MainScaffold extends StatelessWidget {
-//   final Widget body;
-//   final String title;
-//   final bool showAppBar;
-//
-//   const MainScaffold({
-//     Key? key,
-//     required this.body,
-//     required this.title,
-//     this.showAppBar = true,
-//   }) : super(key: key);
-//
-//   @override
-//   Widget build(BuildContext context) {
-//     // double screenWidth = MediaQuery.of(context).size.width;
-//     // print(screenWidth);
-//     return Scaffold(
-//       body: Stack(
-//         children: [
-//           Positioned.fill(
-//             child: Image.asset("assets/images/background.png",fit: BoxFit.fill),
-//           ),
-//           Center(child: Container(
-//             alignment: Alignment.topCenter,
-//             margin: EdgeInsets.only(left: 15,right: 15),
-//             constraints: BoxConstraints(maxWidth: 1280),
-//             child: body ,
-//           ),)
-//
-//         ],
-//       ),
-//     );
-//   }
-// }

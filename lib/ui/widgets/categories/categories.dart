@@ -143,6 +143,7 @@ class _CategoriesWidgetState extends State<CategoriesWidget> {
               child: Container(
                 margin: const EdgeInsets.only(right: 16),
                 width: _width*0.8,
+
                 child: Stack(
                   children: [
                     Container(
@@ -174,9 +175,10 @@ class _CategoriesWidgetState extends State<CategoriesWidget> {
                                   width: 170,
                                 );
                               },
+                              fit: BoxFit.fitWidth,
                             );
                           },
-                          fit: BoxFit.fitHeight,
+                          fit: BoxFit.fitWidth,
                           color: isSelected ? null : Colors.black.withOpacity(0.5),
                           colorBlendMode: isSelected ? null : BlendMode.darken,
                         ),

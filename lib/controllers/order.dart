@@ -8,6 +8,7 @@ class OrderController extends GetxController {
   var order = Order(positions: [], deliverySum: 0, sumPrice: 0,orderType: "delivery",paymentType: "cash").obs;
   var deliveryInfo=DeliveryInfo(range: 0).obs;
   var sum=0.obs;
+  var test="".obs;
   @override
   void onInit() {
     super.onInit();
@@ -121,6 +122,7 @@ class OrderController extends GetxController {
       updatedOrder.positions=[];
       updatedOrder.sumPrice=0;
     }
+    sum.value=order.value.sumPrice;
     // Присваиваем новое значение Observable переменной
     order.value = updatedOrder;
   }
